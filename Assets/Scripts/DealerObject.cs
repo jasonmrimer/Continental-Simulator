@@ -66,7 +66,7 @@ public class DealerObject : MonoBehaviour
         foreach (Player player in playerToObjectDict.Keys)
         {
             GameObject gameHand = playerToObjectDict[player];
-
+            
             foreach (Card card in player.Hand())
             {
                 GameObject cardObject = Instantiate(

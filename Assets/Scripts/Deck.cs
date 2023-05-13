@@ -30,6 +30,8 @@ public class Deck
                 }
             }
         }
+        
+        Shuffle();
     }
 
     public List<Card> GetCards()
@@ -37,6 +39,16 @@ public class Deck
         return _cards;
     }
 
+    private void Shuffle()
+    {
+        // Fisher-Yates shuffle algorithm
+        for (int i = _cards.Count - 1; i > 0; i--)
+        {
+            int j = UnityEngine.Random.Range(0, i + 1);
+            (_cards[i], _cards[j]) = (_cards[j], _cards[i]);
+        }
+    }
+    
     public int CardCount()
     {
         return _cards.Count;

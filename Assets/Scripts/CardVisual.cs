@@ -7,18 +7,9 @@ namespace Game
     {
         public Text valueText;
         public Text suitText;
-        // public Sprite backSprite;
-
-        // private SpriteRenderer spriteRenderer;
-
-        // private void Awake()
-        // {
-        //     spriteRenderer = GetComponent<SpriteRenderer>();
-        // }
 
         public void SetFront(Card card)
         {
-            // spriteRenderer.sprite = frontSprite;
             valueText.text = card.ValueText();
             suitText.text = card.SuitSymbol();
             ChooseFontColor(card);
@@ -46,12 +37,5 @@ namespace Game
                     break;
             }
         }
-        //
-        // public void SetBack()
-        // {
-        //     spriteRenderer.sprite = backSprite;
-        //     valueText.text = "";
-        //     suitText.text = "";
-        // }
     }
 }
