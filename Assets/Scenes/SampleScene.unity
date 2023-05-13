@@ -1167,7 +1167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d029ef141ed404112a087851082fb0a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Card: {fileID: 3902926587349358622, guid: 6bdb05ad5cd9f494eacd02a34fbd4200, type: 3}
+  Card_Prefab: {fileID: 3902926587349358622, guid: 6bdb05ad5cd9f494eacd02a34fbd4200, type: 3}
   P1_Hand: {fileID: 1724622403}
   P2_Hand: {fileID: 351822350}
   P3_Hand: {fileID: 1711779061}

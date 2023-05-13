@@ -1,29 +1,26 @@
 using System.Collections.Generic;
 
-namespace DefaultNamespace
+public class Player
 {
-    public class Player
+    private List<Card> _cards;
+
+    public Player()
     {
-        private List<Card> _cards;
+        _cards = new List<Card>();
+    }
 
-        public Player()
-        {
-            _cards = new List<Card>();
-        }
+    public int CardCount()
+    {
+        return _cards.Count;
+    }
 
-        public int CardCount()
-        {
-            return _cards.Count;
-        }
+    public void addToHand(Card card)
+    {
+        _cards.Add(card);
+    }
 
-        public void addToHand(Card card)
-        {
-            _cards.Add(card);
-        }
-        
-        public List<Card> getHand()
-        {
-            return _cards;
-        }
+    public List<Card> Hand()
+    {
+        return _cards;
     }
 }

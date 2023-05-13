@@ -1,13 +1,14 @@
 using System.Collections.Generic;
-using DefaultNamespace;
 
 public class Dealer
 {
     private List<Player> _players;
-        
-    public Dealer(List<Player> players)
+    private Deck _deck;
+
+    public Dealer(Deck deck, List<Player> players)
     {
-        this._players = players;
+        _deck = deck;
+        _players = players;
     }
 
     public void Deal()
@@ -19,7 +20,7 @@ public class Dealer
     {
         for (int i = 0; i < 11; i++)
         {
-            Card card = new Card();
+            Card card = _deck.DrawCard();
             player.addToHand(card);
         }
     }
