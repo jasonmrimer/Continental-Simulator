@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Player
@@ -48,5 +49,12 @@ public class Player
     public Card ChooseDrawCard(Card cardFromDeck, Card cardFromDiscardPile)
     {
         return cardFromDeck;
+    }
+
+    public Card discardFromHand()
+    {
+        Card discard = _cards.Last();
+        _cards.Remove(discard);
+        return discard;
     }
 }
