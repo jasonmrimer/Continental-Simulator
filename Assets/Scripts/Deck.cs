@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game;
 
 public class Deck
@@ -14,8 +16,8 @@ public class Deck
             {
                 if (suit == Suit.Wild)
                 {
-                    Card joker1 = new Card(suit, CardValue.Joker);
-                    Card joker2 = new Card(suit, CardValue.Joker);
+                    Card joker1 = new Card(CardValue.Joker, suit);
+                    Card joker2 = new Card(CardValue.Joker, suit);
                     _cards.Add(joker1);
                     _cards.Add(joker2);
                 }
@@ -24,7 +26,7 @@ public class Deck
                     for (int j = 1; j <= 13; j++)
                     {
                         CardValue cardValue = (CardValue)j;
-                        Card card = new Card(suit, cardValue);
+                        Card card = new Card(cardValue, suit);
                         _cards.Add(card);
                     }
                 }
@@ -39,13 +41,16 @@ public class Deck
         return _cards;
     }
 
-    private void Shuffle()
+    public void Shuffle()
     {
-        // Fisher-Yates shuffle algorithm
-        for (int i = _cards.Count - 1; i > 0; i--)
+        // Shuffle the deck using Fisher-Yates algorithm
+        Random random = new Random();
+        int n = _cards.Count;
+        while (n > 1)
         {
-            int j = UnityEngine.Random.Range(0, i + 1);
-            (_cards[i], _cards[j]) = (_cards[j], _cards[i]);
+            n--;
+            int k = random.Next(n + 1);
+            (_cards[k], _cards[n]) = (_cards[n], _cards[k]);
         }
     }
     
@@ -56,8 +61,18 @@ public class Deck
 
     public Card DrawCard()
     {
-        Card drawnCard = _cards[^1];
-        _cards.RemoveAt(_cards.Count - 1);
+        Card drawnCard = _cards.Last();
+        _cards.Remove(drawnCard);
         return drawnCard;
+    }
+
+    public Card TopCard()
+    {
+        return _cards.Last();
+    }
+
+    public void AddCards(List<Card> discardPile)
+    {
+        _cards.AddRange(discardPile);
     }
 }
