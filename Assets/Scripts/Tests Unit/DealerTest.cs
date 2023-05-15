@@ -8,10 +8,10 @@ public class DealerTest
     {
         List<Player> players = new List<Player>(4)
         {
-            new(),
-            new(),
-            new(),
-            new()
+            new(TODO),
+            new(TODO),
+            new(TODO),
+            new(TODO)
         };
         Deck deck = new Deck();
 

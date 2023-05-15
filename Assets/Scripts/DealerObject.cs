@@ -24,10 +24,10 @@ public class DealerObject : MonoBehaviour
     {
         _deck = new Deck();
 
-        Player player01 = new Player();
-        Player player02 = new Player();
-        Player player03 = new Player();
-        Player player04 = new Player();
+        Player player01 = new Player("Alice");
+        Player player02 = new Player("Bob");
+        Player player03 = new Player("Chade");
+        Player player04 = new Player("Dani");
 
         _players = new List<Player>(4)
         {

@@ -64,4 +64,9 @@ public class Card
                 return base.ToString();
         }
     }
+
+    public string Printable()
+    {
+        return $"{this.ValueText()}{this.SuitSymbol()}";
+    }
 }

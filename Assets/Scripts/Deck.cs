@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Game;
 
 public class Deck
@@ -39,7 +40,7 @@ public class Deck
         return _cards;
     }
 
-    private void Shuffle()
+    public void Shuffle()
     {
         // Fisher-Yates shuffle algorithm
         for (int i = _cards.Count - 1; i > 0; i--)
@@ -56,8 +57,18 @@ public class Deck
 
     public Card DrawCard()
     {
-        Card drawnCard = _cards[^1];
-        _cards.RemoveAt(_cards.Count - 1);
+        Card drawnCard = _cards.Last();
+        _cards.Remove(drawnCard);
         return drawnCard;
+    }
+
+    public Card TopCard()
+    {
+        return _cards.Last();
+    }
+
+    public void AddCards(List<Card> discardPile)
+    {
+        _cards.AddRange(discardPile);
     }
 }
