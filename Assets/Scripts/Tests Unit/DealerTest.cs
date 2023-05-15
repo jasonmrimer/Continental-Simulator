@@ -2,20 +2,44 @@ using System.Collections.Generic;
 using Game;
 using NUnit.Framework;
 
+[TestFixture]
 public class DealerTest
 {
+    private List<Player> _players;
+    private Deck _deck;
+    private Dealer _dealer;
+
+    [SetUp]
+    public void SetUp()
+    {
+        _players = new PlayerFactory().CreatePlayers();
+        _deck = new Deck();
+        _dealer = new Dealer(_deck, _players);
+    }
+
     [Test]
     public void DealElevenCardsToFourPlayers()
     {
-        List<Player> players = new PlayerFactory().CreatePlayers();
-        Deck deck = new Deck();
+        _dealer.Deal();
 
-        Dealer dealer = new Dealer(deck, players);
+        _players.ForEach(AllCardsAndUnique);
+        Assert.AreEqual(
+            63,
+            _deck.CardCount(),
+            "There should be 63 cards: 108 - 44 dealt - 1 discard pile."
+        );
+    }
 
-        dealer.Deal();
+    [Test]
+    public void FacilitatesADiscardPile()
+    {
+        _dealer.Deal();
 
-        players.ForEach(AllCardsAndUnique);
-        Assert.AreEqual(64, deck.CardCount());
+        Assert.AreEqual(
+            1,
+            _dealer.DiscardPileCount(),
+            "After dealing, the discard pile should have 1 card"
+        );
     }
 
     private void AllCardsAndUnique(Player player)

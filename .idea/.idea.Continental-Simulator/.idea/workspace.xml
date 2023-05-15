@@ -6,15 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="5003e427-b05c-4028-8b40-0d4084147efb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Continental-Simulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Continental-Simulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Deck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Deck.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Dealer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Dealer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/DealerTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/DealerTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/10b6135e63434fdba4fc6c109928ab3b50800/0e/dfebc41c/TestAttribute.cs" root0="SKIP_HIGHLIGHTING" />
@@ -39,6 +40,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "game-routine",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -55,7 +57,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="cb17ce3c-c63f-46a3-80c3-8d3b8ed29ce7">
+  <component name="RunManager" selected="0f745eee-e9c0-4669-9d51-835d5051fcd8">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/2021.3.24f1/Unity.app/Contents/MacOS/Unity" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath $PROJECT_DIR$ -debugCodeOptimization" />
@@ -109,7 +111,7 @@
       <updated>1683913880453</updated>
       <workItem from="1683913881628" duration="3406000" />
       <workItem from="1683942137891" duration="2098000" />
-      <workItem from="1683944243128" duration="16529000" />
+      <workItem from="1683944243128" duration="18756000" />
     </task>
     <servers />
   </component>
