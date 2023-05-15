@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game;
 using NUnit.Framework;
 
 public class DealerTest
@@ -6,13 +7,7 @@ public class DealerTest
     [Test]
     public void DealElevenCardsToFourPlayers()
     {
-        List<Player> players = new List<Player>(4)
-        {
-            new(TODO),
-            new(TODO),
-            new(TODO),
-            new(TODO)
-        };
+        List<Player> players = new PlayerFactory().CreatePlayers();
         Deck deck = new Deck();
 
         Dealer dealer = new Dealer(deck, players);

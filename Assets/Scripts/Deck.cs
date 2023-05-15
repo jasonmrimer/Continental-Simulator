@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game;
@@ -42,12 +43,14 @@ public class Deck
 
     public void Shuffle()
     {
-        // Fisher-Yates shuffle algorithm
-        for (int i = _cards.Count - 1; i > 0; i--)
-        {
-            int j = UnityEngine.Random.Range(0, i + 1);
-            (_cards[i], _cards[j]) = (_cards[j], _cards[i]);
-        }
+        int cardCount = _cards.Count;
+
+        // Create a range from 0 to cardCount (exclusive)
+        Range range = new Range(0, cardCount);
+
+        // Shuffle the deck using Fisher-Yates algorithm
+        System.Random random = new System.Random();
+        _cards.Sort((a, b) => random.Next(range.Start.Value, range.End.Value));
     }
     
     public int CardCount()
