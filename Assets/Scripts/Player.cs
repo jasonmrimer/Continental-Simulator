@@ -59,4 +59,24 @@ public class Player
         Card card = _cards[random.Next(_cards.Count)];
         return card;
     }
+
+    public void TakeTurn(Card topOfPile)
+    {
+        
+    }
+
+    public DrawSource ChooseDrawSource(bool pileIsAvailable)
+    {
+        DrawSource source = DrawSource.Deck;
+
+        Random random = new Random();
+        double randomValue = random.NextDouble();
+
+        if (randomValue < 0.5 && pileIsAvailable)
+        {
+            source = DrawSource.Pile;
+        }
+
+        return source;
+    }
 }

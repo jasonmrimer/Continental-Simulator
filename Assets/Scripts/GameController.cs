@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 public class GameController
@@ -9,8 +8,8 @@ public class GameController
     private readonly bool _drawChoiceEnabled;
     private int _turnCount;
     private int _currentPlayerIndex;
-    private int _turnLimit;
-    private GameWriter _gameWriter;
+    private readonly int _turnLimit;
+    private readonly GameWriter _gameWriter;
 
     public GameController(bool drawChoiceEnabled = false, int turnLimit = 100)
     {
@@ -25,6 +24,7 @@ public class GameController
     {
         while (ShouldContinuePlaying())
         {
+            _gameWriter.DeckAndPileStatus(_dealer, _turnCount);
             if (_dealer.DeckCardCount() == 0 && _dealer.PileCardCount() == 0)
             {
                 _gameIsOver = true;
@@ -38,7 +38,6 @@ public class GameController
             PlayerDiscards(currentPlayer);
 
             _currentPlayerIndex = RotateToNextPlayer(_currentPlayerIndex);
-            _gameWriter.DeckAndPileStatus(_dealer);
         }
     }
 
@@ -63,7 +62,7 @@ public class GameController
     {
         _gameWriter.TurnStart(player, _turnCount);
 
-        string drawSource = "deck";
+        DrawSource drawSource = DrawSource.Deck;
         Card drawnCard;
 
         if (!_drawChoiceEnabled)
@@ -72,33 +71,19 @@ public class GameController
         }
         else
         {
-            drawSource = ChooseDrawSource();
+            drawSource = player.ChooseDrawSource(
+                pileIsAvailable: _dealer.PileCardCount() > 0
+            );
             drawnCard = ChooseCardFromDeckOrPile(drawSource);
         }
 
         player.AddToHand(drawnCard);
-        _gameWriter.DeckAndPileStatus(_dealer);
-        _gameWriter.DrawAction(player, drawSource, drawnCard);
+        _gameWriter.DrawAction(player, drawSource.ToString(), drawnCard);
     }
-
-    private string ChooseDrawSource()
+    
+    private Card ChooseCardFromDeckOrPile(DrawSource drawSource)
     {
-        string source = "deck";
-
-        Random random = new Random();
-        double randomValue = random.NextDouble();
-
-        if (randomValue < 0.5 && _dealer.PileCardCount() > 0)
-        {
-            source = "pile";
-        }
-
-        return source;
-    }
-
-    private Card ChooseCardFromDeckOrPile(string drawSource)
-    {
-        return drawSource == "deck" ? _dealer.DrawFromDeck() : _dealer.DrawFromPile();
+        return drawSource == DrawSource.Deck ? _dealer.DrawFromDeck() : _dealer.DrawFromPile();
     }
 
     private void PlayerDiscards(Player player)

@@ -2,9 +2,9 @@ using System;
 
 public class GameWriter
 {
-    public void DeckAndPileStatus(Dealer dealer)
+    public void DeckAndPileStatus(Dealer dealer, int turnCount)
     {
-        Console.WriteLine($"Cards left in Deck: {dealer.DeckCardCount()} & Pile: {dealer.PileCardCount()}");
+        Console.WriteLine($"> Turn {turnCount} <  Cards left in Deck: {dealer.DeckCardCount()} & Pile: {dealer.PileCardCount()}");
     }
 
     public void DiscardAction(Player player, Card discard)
@@ -14,7 +14,7 @@ public class GameWriter
 
     public void DrawAction(Player player, string drawSource, Card drawnCard)
     {
-        Console.WriteLine($"{player.Name} draws {drawnCard.Printable()} from {drawSource}");
+        Console.WriteLine($"{player.Name} draws from _{drawSource}_: {drawnCard.Printable()}");
     }
 
     public void TurnStart(Player player, int turnCount)
