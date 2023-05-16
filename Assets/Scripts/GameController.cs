@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GameController
 {
@@ -8,11 +9,13 @@ public class GameController
     private List<Player> _players;
     private List<Card> _discardPile;
     private bool _gameIsOver;
+    private readonly bool _drawChoiceEnabled;
     private int _turnCount;
     private int _currentPlayerIndex;
 
-    public GameController()
+    public GameController(bool drawChoiceEnabled = false)
     {
+        _drawChoiceEnabled = drawChoiceEnabled;
         SetupAndDeal();
     }
 
@@ -23,11 +26,11 @@ public class GameController
             if (_deck.CardCount() == 0)
             {
                 _gameIsOver = true;
-                break; 
+                break;
             }
 
             Player currentPlayer = _players[_currentPlayerIndex];
-            
+
             PlayerDraws(currentPlayer);
             PlayerDiscards(currentPlayer);
 
@@ -45,9 +48,57 @@ public class GameController
     private void PlayerDraws(Player player)
     {
         Console.WriteLine($"{player.Name} begins turn {_turnCount} with: {player.FormatHandForPrint()}");
-        Card drawCard = _deck.DrawCard();
-        player.AddToHand(drawCard);
-        Console.WriteLine($"{player.Name} draws {drawCard.Printable()}");
+        
+        string drawSource = "deck";
+        Card drawnCard = null;
+        
+        if (!_drawChoiceEnabled)
+        {
+            drawnCard = _deck.DrawCard();
+        }
+        else
+        {
+            drawSource = ChooseDrawSource();
+            drawnCard = ChooseCardFromDeckOrPile(drawSource);
+        }
+
+        player.AddToHand(drawnCard);
+        Console.WriteLine($"{player.Name} draws {drawnCard.Printable()} from {drawSource}");
+    }
+
+    private string ChooseDrawSource()
+    {
+        string source = "deck";
+
+        Random random = new Random();
+        double randomValue = random.NextDouble();
+
+        if (randomValue < 0.5)
+        {
+            // Draw from the Deck
+            source = "pile";
+        }
+
+        return source;
+    }
+
+    private Card ChooseCardFromDeckOrPile(string drawSource)
+    {
+        Card drawnCard = null;
+        
+        if (drawSource == "deck")
+        {
+            // Draw from the Deck
+            drawnCard = _deck.DrawCard();
+        }
+        else
+        {
+            // Draw from the Discard Pile
+            drawnCard = _discardPile.Last();
+            _discardPile.Remove(drawnCard);
+        }
+
+        return drawnCard;
     }
 
     private void PlayerDiscards(Player player)
@@ -64,7 +115,7 @@ public class GameController
         _discardPile = new List<Card>();
         _players = new PlayerStub().CreatePlayers();
         _dealer = new Dealer(_deck, _players);
-        
+
         _turnCount = 1;
         _currentPlayerIndex = 0;
         _gameIsOver = false;
