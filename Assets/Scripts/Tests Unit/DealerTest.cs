@@ -37,11 +37,17 @@ public class DealerTest
 
         Assert.AreEqual(
             1,
-            _dealer.DiscardPileCount(),
+            _dealer.PileCardCount(),
             "After dealing, the discard pile should have 1 card"
         );
     }
 
+    [Test]
+    public void RecyclesPileIntoDeck()
+    {
+        
+    }
+    
     private void AllCardsAndUnique(Player player)
     {
         Assert.AreEqual(11, player.CardCount());

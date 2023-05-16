@@ -5,25 +5,26 @@ using System.Linq;
 public class GameController
 {
     private Dealer _dealer;
-    private Deck _deck;
     private List<Player> _players;
-    private List<Card> _discardPile;
     private bool _gameIsOver;
     private readonly bool _drawChoiceEnabled;
     private int _turnCount;
     private int _currentPlayerIndex;
+    private int _turnLimit;
 
-    public GameController(bool drawChoiceEnabled = false)
+    public GameController(bool drawChoiceEnabled = false, int turnLimit = 100)
     {
         _drawChoiceEnabled = drawChoiceEnabled;
+        _turnLimit = turnLimit;
+
         SetupAndDeal();
     }
 
     public void Play()
     {
-        while (!_gameIsOver)
+        while (ShouldContinuePlaying())
         {
-            if (_deck.CardCount() == 0)
+            if (_dealer.DeckCardCount() == 0 && _dealer.PileCardCount() == 0)
             {
                 _gameIsOver = true;
                 break;
@@ -31,11 +32,26 @@ public class GameController
 
             Player currentPlayer = _players[_currentPlayerIndex];
 
+            _dealer.RecyclePileIntoDeck();
             PlayerDraws(currentPlayer);
             PlayerDiscards(currentPlayer);
 
             _currentPlayerIndex = RotateToNextPlayer(_currentPlayerIndex);
+            Console.WriteLine($"Cards left in Deck: {_dealer.DeckCardCount()} & Pile: {_dealer.PileCardCount()}");
         }
+    }
+
+    private bool ShouldContinuePlaying()
+    {
+        if (_drawChoiceEnabled)
+        {
+            if (_turnCount == _turnLimit)
+            {
+                _gameIsOver = true;
+            }
+        }
+
+        return !_gameIsOver;
     }
 
     private int RotateToNextPlayer(int currentPlayerIndex)
@@ -48,13 +64,13 @@ public class GameController
     private void PlayerDraws(Player player)
     {
         Console.WriteLine($"{player.Name} begins turn {_turnCount} with: {player.FormatHandForPrint()}");
-        
+
         string drawSource = "deck";
-        Card drawnCard = null;
-        
+        Card drawnCard;
+
         if (!_drawChoiceEnabled)
         {
-            drawnCard = _deck.DrawCard();
+            drawnCard = _dealer.DrawFromDeck();
         }
         else
         {
@@ -73,9 +89,8 @@ public class GameController
         Random random = new Random();
         double randomValue = random.NextDouble();
 
-        if (randomValue < 0.5)
+        if (randomValue < 0.5 && _dealer.PileCardCount() > 0)
         {
-            // Draw from the Deck
             source = "pile";
         }
 
@@ -84,37 +99,21 @@ public class GameController
 
     private Card ChooseCardFromDeckOrPile(string drawSource)
     {
-        Card drawnCard = null;
-        
-        if (drawSource == "deck")
-        {
-            // Draw from the Deck
-            drawnCard = _deck.DrawCard();
-        }
-        else
-        {
-            // Draw from the Discard Pile
-            drawnCard = _discardPile.Last();
-            _discardPile.Remove(drawnCard);
-        }
-
-        return drawnCard;
+        return drawSource == "deck" ? _dealer.DrawFromDeck() : _dealer.DrawFromPile();
     }
 
     private void PlayerDiscards(Player player)
     {
         Card discard = player.DiscardFromHand();
-        _discardPile.Add(discard);
+        _dealer.AddToPile(discard);
         Console.WriteLine($"{player.Name} discards {discard.Printable()}");
     }
 
     private void SetupAndDeal()
     {
         // Setup
-        _deck = new Deck();
-        _discardPile = new List<Card>();
         _players = new PlayerStub().CreatePlayers();
-        _dealer = new Dealer(_deck, _players);
+        _dealer = new Dealer(new Deck(), _players);
 
         _turnCount = 1;
         _currentPlayerIndex = 0;
@@ -122,7 +121,6 @@ public class GameController
 
         // Deal
         _dealer.Deal();
-        _discardPile.Add(_deck.DrawCard());
     }
 
     public bool IsFinished()
