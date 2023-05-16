@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game;
 
 public class Deck
 {
@@ -10,50 +9,47 @@ public class Deck
     public Deck()
     {
         _cards = new List<Card>();
-        for (int i = 0; i < 2; i++)
+        const int numberOfDecks = 2;
+        
+        for (int i = 0; i < numberOfDecks; i++)
         {
-            foreach (Suit suit in System.Enum.GetValues(typeof(Suit)))
+            foreach (Suit suit in Enum.GetValues(typeof(Suit)))
             {
-                if (suit == Suit.Wild)
+                if (IsJoker(suit))
                 {
-                    Card joker1 = new Card(CardValue.Joker, suit);
-                    Card joker2 = new Card(CardValue.Joker, suit);
-                    _cards.Add(joker1);
-                    _cards.Add(joker2);
+                    CreateJokers(suit);
                 }
                 else
                 {
-                    for (int j = 1; j <= 13; j++)
-                    {
-                        CardValue cardValue = (CardValue)j;
-                        Card card = new Card(cardValue, suit);
-                        _cards.Add(card);
-                    }
+                    CreateAllNonJokers(suit);
                 }
             }
         }
-        
-        Shuffle();
     }
 
-    public List<Card> GetCards()
+    private void CreateAllNonJokers(Suit suit)
     {
-        return _cards;
-    }
-
-    public void Shuffle()
-    {
-        // Shuffle the deck using Fisher-Yates algorithm
-        Random random = new Random();
-        int n = _cards.Count;
-        while (n > 1)
+        for (int j = 1; j <= 13; j++)
         {
-            n--;
-            int k = random.Next(n + 1);
-            (_cards[k], _cards[n]) = (_cards[n], _cards[k]);
+            CardValue cardValue = (CardValue)j;
+            Card card = new Card(cardValue, suit);
+            _cards.Add(card);
         }
     }
-    
+
+    private void CreateJokers(Suit suit)
+    {
+        Card joker1 = new Card(CardValue.Joker, suit);
+        Card joker2 = new Card(CardValue.Joker, suit);
+        _cards.Add(joker1);
+        _cards.Add(joker2);
+    }
+
+    private static bool IsJoker(Suit suit)
+    {
+        return suit == Suit.Wild;
+    }
+
     public int CardCount()
     {
         return _cards.Count;
@@ -66,13 +62,10 @@ public class Deck
         return drawnCard;
     }
 
-    public Card TopCard()
-    {
-        return _cards.Last();
-    }
-
     public void AddCards(List<Card> discardPile)
     {
         _cards.AddRange(discardPile);
     }
+
+    public List<Card> Cards => _cards;
 }

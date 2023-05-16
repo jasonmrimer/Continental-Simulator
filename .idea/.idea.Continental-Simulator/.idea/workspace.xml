@@ -6,8 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="5003e427-b05c-4028-8b40-0d4084147efb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Continental-Simulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Continental-Simulator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Dealer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Dealer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DealerObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DealerObject.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/GameControllerTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/GameControllerTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameWriter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerStub.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerStub.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/DealerTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/DealerTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/PlayerTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/PlayerTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +52,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "configurable.group.appearance",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -57,7 +63,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="89909d6d-fc06-4df9-8c1b-ac0f344e574b">
+  <component name="RunManager" selected="371a65d8-3ceb-42e9-abfb-3b4bd58b1f2a">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/2021.3.24f1/Unity.app/Contents/MacOS/Unity" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath $PROJECT_DIR$ -debugCodeOptimization" />
@@ -111,7 +117,9 @@
       <updated>1683913880453</updated>
       <workItem from="1683913881628" duration="3406000" />
       <workItem from="1683942137891" duration="2098000" />
-      <workItem from="1683944243128" duration="30546000" />
+      <workItem from="1683944243128" duration="30921000" />
+      <workItem from="1684218859508" duration="1414000" />
+      <workItem from="1684220290601" duration="13515000" />
     </task>
     <servers />
   </component>
@@ -122,6 +130,18 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="DotNet Exception Breakpoints">
+          <properties exception="System.NullReferenceException" isInternal="false" displayValue="NullReferenceException" namespaceName="System">
+            <option name="internal" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

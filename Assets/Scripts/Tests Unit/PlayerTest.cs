@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 
 [TestFixture]
@@ -29,6 +30,33 @@ public class PlayerTest
     public void Discard()
     {
         Assert.AreEqual(5, _player.CardCount());
+        _player.DiscardFromHand();
+        Assert.AreEqual(4, _player.CardCount());
+    }
+
+    [Test]
+    public void ChooseDrawSourceAtRandom()
+    {
+        // Card topOfPile = new Card(CardValue.Eight, Suit.Spades);
+        HashSet<DrawSource> chosenSources = new HashSet<DrawSource>();
+        int choiceCount = 1;
+
+        while (chosenSources.Count < 2 && choiceCount < 100)
+        {
+            chosenSources.Add(Player.ChooseDrawSource(pileIsAvailable:true));
+            choiceCount++;
+        }
+
+        Assert.Less(
+            choiceCount,
+            100,
+            "Player did not randomly select both within 100 tries--unlikely result indicative of failure"
+        );
+    }
+    
+    [Test]
+    public void DiscardRemovesFromHand()
+    {
         _player.DiscardFromHand();
         Assert.AreEqual(4, _player.CardCount());
     }

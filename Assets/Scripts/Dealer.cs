@@ -1,18 +1,23 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public class Dealer
 {
-    private List<Player> _players;
-    private Deck _deck;
-    private List<Card> _discardPile;
+    private readonly List<Player> _players;
+    private readonly Deck _deck;
+    private readonly List<Card> _discardPile;
+    private Card _topDiscard;
 
     public Dealer(Deck deck, List<Player> players)
     {
         _deck = deck;
         _players = players;
         _discardPile = new List<Card>();
+        _topDiscard = null;
     }
+
+    public Card TopDiscard => _topDiscard;
 
     public void RecyclePileIntoDeck()
     {
@@ -23,15 +28,15 @@ public class Dealer
             _deck.AddCards(_discardPile);
             _discardPile.Clear();
             _discardPile.Add(topOfPile);
-            _deck.Shuffle();
+            Shuffle();
         }
     }
 
     public void Deal()
     {
-        _deck.Shuffle();
+        Shuffle();
         _players.ForEach(DealStartingHand);
-        _discardPile.Add(_deck.DrawCard());
+        _topDiscard = _deck.DrawCard();
     }
 
     private void DealStartingHand(Player player)
@@ -43,7 +48,24 @@ public class Dealer
         }
     }
 
-    public void AddToPile(Card discard)
+    public void ReceiveDiscardFromPlayer(Card discard)
+    {
+        TransferCurrentTopDiscardToPile();
+        _topDiscard = discard;
+    }
+
+    private void TransferCurrentTopDiscardToPile()
+    {
+        if (_topDiscard != null)
+        {
+            AddToPile(_topDiscard);
+        }
+
+        _topDiscard = null;
+        
+    }
+
+    private void AddToPile(Card discard)
     {
         _discardPile.Add(discard);
     }
@@ -58,15 +80,39 @@ public class Dealer
         return _deck.CardCount();
     }
 
-    public Card DrawFromPile()
-    {
-        Card drawnCard = _discardPile.Last();
-        _discardPile.Remove(drawnCard);
-        return drawnCard;
-    }
-
-    public Card DrawFromDeck()
+    private Card DrawFromDeck()
     {
         return _deck.DrawCard();
+    }
+
+    private void Shuffle()
+    {
+        // Shuffle the deck using Fisher-Yates algorithm
+        Random random = new Random();
+        int n = _deck.CardCount();
+        while (n > 1)
+        {
+            n--;
+            int k = random.Next(n + 1);
+            (_deck.Cards[k], _deck.Cards[n]) = (_deck.Cards[n], _deck.Cards[k]);
+        }
+    }
+
+    public Card GiveCardFrom(DrawSource drawSource)
+    {
+        Card cardToGive;
+
+        if (drawSource == DrawSource.Deck)
+        {
+            TransferCurrentTopDiscardToPile();
+            cardToGive = DrawFromDeck();
+        }
+        else
+        {
+            cardToGive = _topDiscard;
+            _topDiscard = null;
+        }
+
+        return cardToGive;
     }
 }

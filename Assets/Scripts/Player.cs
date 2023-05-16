@@ -4,7 +4,7 @@ using System.Linq;
 
 public class Player
 {
-    private List<Card> _cards;
+    private readonly List<Card> _cards;
 
     public Player(string name)
     {
@@ -32,11 +32,11 @@ public class Player
     public string FormatHandForPrint()
     {
         string printableHand = "";
-        
+
         foreach (Card card in _cards)
         {
             printableHand += card.Printable();
-            
+
             if (card != _cards.Last())
             {
                 printableHand += " | ";
@@ -50,6 +50,7 @@ public class Player
     {
         Card discard = ChooseDiscard();
         _cards.Remove(discard);
+        GameWriter.PrintDiscardAction(this, discard);
         return discard;
     }
 
@@ -58,5 +59,25 @@ public class Player
         Random random = new Random();
         Card card = _cards[random.Next(_cards.Count)];
         return card;
+    }
+
+    public static DrawSource ChooseDrawSource(bool pileIsAvailable)
+    {
+        DrawSource source = DrawSource.Deck;
+
+        Random random = new Random();
+        double randomValue = random.NextDouble();
+
+        if (randomValue < 0.25 && pileIsAvailable)
+        {
+            source = DrawSource.Pile;
+        }
+
+        return source;
+    }
+
+    public static bool DecideWhetherToTakePenalty()
+    {
+        return ChooseDrawSource(true) == DrawSource.Pile;
     }
 }

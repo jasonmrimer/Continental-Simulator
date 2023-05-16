@@ -3,24 +3,21 @@ using NUnit.Framework;
 
 public class GameControllerTest
 {
-    private GameController gameController;
+    private GameController _gameController;
 
     [Test]
-    public void PlayHundredTurnsDeckOnlyTestRecycle()
+    public void PlayThousandTurnsDeckOnlyTestRecycle()
     {
-        gameController = new GameController(
-            drawChoiceEnabled: false,
-            turnLimit: 100
-        );
-        gameController.Play();
-        
+        _gameController = new GameController(turnLimit: 1000);
+        _gameController.Play();
+
         Assert.IsTrue(
-            gameController.IsFinished(),
-            "Should conclude after 100 turns."
+            _gameController.IsFinished(),
+            "Should conclude after 1000 turns."
         );
         Assert.AreEqual(
-            100,
-            gameController.TurnCount(),
+            1000,
+            _gameController.TurnCount(),
             "Expect an error from depleting the deck or pile."
         );
     }
@@ -28,18 +25,15 @@ public class GameControllerTest
     [Test]
     public void PlayWithDrawChoiceUntilTurnOneHundred()
     {
-        gameController = new GameController(
-            drawChoiceEnabled: true,
-            turnLimit: 100
-        );
-        gameController.Play();
+        _gameController = new GameController(turnLimit: 100);
+        _gameController.Play();
         Assert.IsTrue(
-            gameController.IsFinished(),
+            _gameController.IsFinished(),
             "Should conclude after 100 turns."
         );
         Assert.AreEqual(
             100,
-            gameController.TurnCount(),
+            _gameController.TurnCount(),
             "Random-choice deck/pile set to 100 turns."
         );
     }
