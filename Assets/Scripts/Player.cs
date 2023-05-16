@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public class Player
 {
@@ -19,7 +19,7 @@ public class Player
         return _cards.Count;
     }
 
-    public void addToHand(Card card)
+    public void AddToHand(Card card)
     {
         _cards.Add(card);
     }
@@ -27,12 +27,6 @@ public class Player
     public List<Card> Hand()
     {
         return _cards;
-    }
-
-    public void PrintHand()
-    {
-        string cardList = FormatHandForPrint();
-        Debug.Log(cardList);
     }
 
     public string FormatHandForPrint()
@@ -52,15 +46,17 @@ public class Player
         return printableHand;
     }
 
-    public Card ChooseDrawCard(Card cardFromDeck, Card cardFromDiscardPile)
+    public Card DiscardFromHand()
     {
-        return cardFromDeck;
-    }
-
-    public Card discardFromHand()
-    {
-        Card discard = _cards.Last();
+        Card discard = ChooseDiscard();
         _cards.Remove(discard);
         return discard;
+    }
+
+    private Card ChooseDiscard()
+    {
+        Random random = new Random();
+        Card card = _cards[random.Next(_cards.Count)];
+        return card;
     }
 }

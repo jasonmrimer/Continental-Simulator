@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class GameController
 {
@@ -43,19 +42,19 @@ public class GameController
         return currentPlayerIndex;
     }
 
-    private void PlayerDiscards(Player player)
-    {
-        Card discard = player.discardFromHand();
-        _discardPile.Add(discard);
-        Console.WriteLine($"{player.Name} discards {discard.Printable()}");
-    }
-
     private void PlayerDraws(Player player)
     {
         Console.WriteLine($"{player.Name} begins turn {_turnCount} with: {player.FormatHandForPrint()}");
         Card drawCard = _deck.DrawCard();
-        player.addToHand(drawCard);
+        player.AddToHand(drawCard);
         Console.WriteLine($"{player.Name} draws {drawCard.Printable()}");
+    }
+
+    private void PlayerDiscards(Player player)
+    {
+        Card discard = player.DiscardFromHand();
+        _discardPile.Add(discard);
+        Console.WriteLine($"{player.Name} discards {discard.Printable()}");
     }
 
     private void SetupAndDeal()
@@ -82,6 +81,6 @@ public class GameController
 
     public int TurnCount()
     {
-        return this._turnCount;
+        return _turnCount;
     }
 }

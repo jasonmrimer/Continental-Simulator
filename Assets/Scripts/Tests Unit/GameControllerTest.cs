@@ -8,7 +8,6 @@ public class GameControllerTest
     {
         GameController gameController = new GameController();
         gameController.Play();
-        Console.Write(("hwwwwwww"));
         Assert.IsTrue(
             gameController.IsFinished(),
             "Should conclude after all cards drawn."

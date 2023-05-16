@@ -25,7 +25,7 @@ public class Dealer
         for (int i = 0; i < 11; i++)
         {
             Card card = _deck.DrawCard();
-            player.addToHand(card);
+            player.AddToHand(card);
         }
     }
 
