@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5003e427-b05c-4028-8b40-0d4084147efb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Continental-Simulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Continental-Simulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Dealer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Dealer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Deck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Deck.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/GameControllerTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/GameControllerTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +47,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "configurable.group.appearance",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -111,7 +112,8 @@
       <updated>1683913880453</updated>
       <workItem from="1683913881628" duration="3406000" />
       <workItem from="1683942137891" duration="2098000" />
-      <workItem from="1683944243128" duration="30546000" />
+      <workItem from="1683944243128" duration="30921000" />
+      <workItem from="1684218859508" duration="1061000" />
     </task>
     <servers />
   </component>

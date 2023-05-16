@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public class Dealer
 {
-    private List<Player> _players;
-    private Deck _deck;
-    private List<Card> _discardPile;
+    private readonly List<Player> _players;
+    private readonly Deck _deck;
+    private readonly List<Card> _discardPile;
 
     public Dealer(Deck deck, List<Player> players)
     {
@@ -23,13 +24,13 @@ public class Dealer
             _deck.AddCards(_discardPile);
             _discardPile.Clear();
             _discardPile.Add(topOfPile);
-            _deck.Shuffle();
+            Shuffle();
         }
     }
 
     public void Deal()
     {
-        _deck.Shuffle();
+        Shuffle();
         _players.ForEach(DealStartingHand);
         _discardPile.Add(_deck.DrawCard());
     }
@@ -68,5 +69,19 @@ public class Dealer
     public Card DrawFromDeck()
     {
         return _deck.DrawCard();
+    }
+
+    private void Shuffle()
+    {
+        // Shuffle the deck using Fisher-Yates algorithm
+        Random random = new Random();
+        int n = _deck.CardCount();
+        while (n > 1)
+        {
+            n--;
+            int k = random.Next(n + 1);
+            (_deck.Cards[k], _deck.Cards[n]) = (_deck.Cards[n], _deck.Cards[k]);
+        }
+
     }
 }
