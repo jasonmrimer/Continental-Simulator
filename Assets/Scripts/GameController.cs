@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game;
 
 public class GameController
 {
@@ -11,11 +12,13 @@ public class GameController
     private int _turnCount;
     private int _currentPlayerIndex;
     private int _turnLimit;
+    private GameWriter _gameWriter;
 
     public GameController(bool drawChoiceEnabled = false, int turnLimit = 100)
     {
         _drawChoiceEnabled = drawChoiceEnabled;
         _turnLimit = turnLimit;
+        _gameWriter = new GameWriter();
 
         SetupAndDeal();
     }
@@ -37,7 +40,8 @@ public class GameController
             PlayerDiscards(currentPlayer);
 
             _currentPlayerIndex = RotateToNextPlayer(_currentPlayerIndex);
-            Console.WriteLine($"Cards left in Deck: {_dealer.DeckCardCount()} & Pile: {_dealer.PileCardCount()}");
+            _gameWriter.DeckAndPileStatus(_dealer);
+            
         }
     }
 
@@ -63,8 +67,8 @@ public class GameController
 
     private void PlayerDraws(Player player)
     {
-        Console.WriteLine($"{player.Name} begins turn {_turnCount} with: {player.FormatHandForPrint()}");
-
+        _gameWriter.TurnStart(player, _turnCount);
+        
         string drawSource = "deck";
         Card drawnCard;
 
@@ -79,7 +83,8 @@ public class GameController
         }
 
         player.AddToHand(drawnCard);
-        Console.WriteLine($"{player.Name} draws {drawnCard.Printable()} from {drawSource}");
+        _gameWriter.DeckAndPileStatus(_dealer);
+        _gameWriter.DrawAction(player, drawSource, drawnCard);
     }
 
     private string ChooseDrawSource()
@@ -106,7 +111,7 @@ public class GameController
     {
         Card discard = player.DiscardFromHand();
         _dealer.AddToPile(discard);
-        Console.WriteLine($"{player.Name} discards {discard.Printable()}");
+        _gameWriter.DiscardAction(player, discard);
     }
 
     private void SetupAndDeal()
