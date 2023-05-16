@@ -25,4 +25,10 @@ public class GameWriter
     {
         Console.WriteLine($"{player.Name} begins turn {turnCount} with: {player.FormatHandForPrint()}");
     }
+
+    public void PrintPenaltyAction(Player player, Card drawnCard, Card penalty)
+    {
+        string penaltyMessage = penalty != null ? $" with penalty of {penalty.Printable()}" : " without penalty";
+        Console.WriteLine($"{player.Name} takes from _Pile_ {penaltyMessage}");
+    }
 }

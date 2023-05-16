@@ -79,4 +79,9 @@ public class Player
 
         return source;
     }
+
+    public bool DecideWhetherToTakePenalty()
+    {
+        return false;
+    }
 }

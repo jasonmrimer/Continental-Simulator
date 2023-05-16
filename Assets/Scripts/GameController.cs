@@ -32,7 +32,7 @@ public class GameController
             }
 
             _dealer.RecyclePileIntoDeck();
-            // PlayersVieForTopDiscard(_currentPlayerIndex);
+            PlayersVieForTopDiscard(_currentPlayerIndex, currentPlayer);
             PlayerDraws(currentPlayer);
             PlayerDiscards(currentPlayer);
 
@@ -40,9 +40,36 @@ public class GameController
         }
     }
 
-    private void PlayersVieForTopDiscard(int currentPlayerIndex)
+    private void PlayersVieForTopDiscard(int currentPlayerIndex, Player currentPlayer)
     {
-        // throw new System.NotImplementedException();
+        int playerCount = _players.Count;
+        
+        // Normalize the startIndex within the range of the list size
+        int startIndex = (currentPlayerIndex % playerCount + playerCount) % playerCount;
+        
+        for (int i = startIndex; i < startIndex + playerCount; i++)
+        {
+            int index = i % playerCount;
+            Player vyingPlayer = _players[index];
+            bool playerDecision = vyingPlayer.DecideWhetherToTakePenalty();
+            if (playerDecision)
+            {
+                Card drawnCard = _dealer.GiveCardFrom(DrawSource.Pile);
+                Card penalty = null;
+                vyingPlayer.AddToHand(drawnCard);
+
+                if (vyingPlayer != currentPlayer)
+                {
+                    // take penalty
+                    penalty = _dealer.GiveCardFrom(DrawSource.Deck);
+                    vyingPlayer.AddToHand(penalty);
+                }
+
+                _gameWriter.PrintPenaltyAction(vyingPlayer, drawnCard, penalty);
+                
+                return;
+            }
+        }
     }
 
     private bool outOfCards()
@@ -78,35 +105,6 @@ public class GameController
         _gameWriter.DrawAction(player, drawSource, drawnCard);
     }
     
-    //
-    // private void PlayerDrawsFormer(Player player)
-    // {
-    //     _gameWriter.TurnStart(player, _turnCount);
-    //     
-    //     DrawSource drawSource = DrawSource.Deck;
-    //     Card drawnCard;
-    //
-    //     if (!_drawChoiceEnabled)
-    //     {
-    //         drawnCard = _dealer.DrawFromDeck();
-    //     }
-    //     else
-    //     {
-    //         drawSource = player.ChooseDrawSource(
-    //             pileIsAvailable: _dealer.PileCardCount() > 0
-    //         );
-    //         drawnCard = ChooseCardFromDeckOrPile(drawSource);
-    //     }
-    //
-    //     player.AddToHand(drawnCard);
-    //     _gameWriter.DrawAction(player, drawSource, drawnCard);
-    // }
-
-    // private Card ChooseCardFromDeckOrPile(DrawSource drawSource)
-    // {
-    //     return drawSource == DrawSource.Deck ? _dealer.DrawFromDeck() : _dealer.DrawFromPile();
-    // }
-
     private void PlayerDiscards(Player player)
     {
         Card discard = player.DiscardFromHand();
