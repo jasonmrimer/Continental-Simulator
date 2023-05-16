@@ -35,12 +35,18 @@ public class Player
         Debug.Log(cardList);
     }
 
-    private string FormatHandForPrint()
+    public string FormatHandForPrint()
     {
         string printableHand = "";
+        
         foreach (Card card in _cards)
         {
-            printableHand += card.Printable() + " | ";
+            printableHand += card.Printable();
+            
+            if (card != _cards.Last())
+            {
+                printableHand += " | ";
+            }
         }
 
         return printableHand;

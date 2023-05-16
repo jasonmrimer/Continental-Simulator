@@ -16,8 +16,8 @@ public class Deck
             {
                 if (suit == Suit.Wild)
                 {
-                    Card joker1 = new Card(suit, CardValue.Joker);
-                    Card joker2 = new Card(suit, CardValue.Joker);
+                    Card joker1 = new Card(CardValue.Joker, suit);
+                    Card joker2 = new Card(CardValue.Joker, suit);
                     _cards.Add(joker1);
                     _cards.Add(joker2);
                 }
@@ -26,7 +26,7 @@ public class Deck
                     for (int j = 1; j <= 13; j++)
                     {
                         CardValue cardValue = (CardValue)j;
-                        Card card = new Card(suit, cardValue);
+                        Card card = new Card(cardValue, suit);
                         _cards.Add(card);
                     }
                 }
@@ -43,14 +43,15 @@ public class Deck
 
     public void Shuffle()
     {
-        int cardCount = _cards.Count;
-
-        // Create a range from 0 to cardCount (exclusive)
-        Range range = new Range(0, cardCount);
-
         // Shuffle the deck using Fisher-Yates algorithm
-        System.Random random = new System.Random();
-        _cards.Sort((a, b) => random.Next(range.Start.Value, range.End.Value));
+        Random random = new Random();
+        int n = _cards.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = random.Next(n + 1);
+            (_cards[k], _cards[n]) = (_cards[n], _cards[k]);
+        }
     }
     
     public int CardCount()

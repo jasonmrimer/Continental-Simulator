@@ -12,7 +12,7 @@ public class DealerTest
     [SetUp]
     public void SetUp()
     {
-        _players = new PlayerFactory().CreatePlayers();
+        _players = new PlayerStub().CreatePlayers();
         _deck = new Deck();
         _dealer = new Dealer(_deck, _players);
     }

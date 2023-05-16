@@ -15,6 +15,7 @@ public class Dealer
 
     public void Deal()
     {
+        _deck.Shuffle();
         _players.ForEach(DealStartingHand);
         _discardPile.Add(_deck.DrawCard());
     }

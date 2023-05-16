@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class PlayerFactory
+public class PlayerStub
 {
     public List<Player> CreatePlayers()
     {

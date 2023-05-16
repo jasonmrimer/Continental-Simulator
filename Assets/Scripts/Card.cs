@@ -23,7 +23,7 @@ public class Card
     public Suit suit;
     public CardValue value;
 
-    public Card(Suit suit, CardValue value)
+    public Card(CardValue value, Suit suit)
     {
         this.suit = suit;
         this.value = value;
@@ -41,7 +41,7 @@ public class Card
             case CardValue.King:
                 return "K";
             case CardValue.Joker:
-                return "Joker";
+                return "Jo";
             default:
                 return ((int)this.value).ToString();
         } 
