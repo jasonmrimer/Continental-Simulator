@@ -67,9 +67,5 @@ public class Deck
         _cards.AddRange(discardPile);
     }
 
-    public List<Card> Cards
-    {
-        get => _cards;
-        set => _cards = value;
-    }
+    public List<Card> Cards => _cards;
 }

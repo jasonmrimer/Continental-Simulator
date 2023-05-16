@@ -7,13 +7,17 @@ public class Dealer
     private readonly List<Player> _players;
     private readonly Deck _deck;
     private readonly List<Card> _discardPile;
+    private Card _topDiscard;
 
     public Dealer(Deck deck, List<Player> players)
     {
         _deck = deck;
         _players = players;
         _discardPile = new List<Card>();
+        _topDiscard = null;
     }
+
+    public Card TopDiscard => _topDiscard;
 
     public void RecyclePileIntoDeck()
     {
@@ -32,7 +36,7 @@ public class Dealer
     {
         Shuffle();
         _players.ForEach(DealStartingHand);
-        _discardPile.Add(_deck.DrawCard());
+        _topDiscard = _deck.DrawCard();
     }
 
     private void DealStartingHand(Player player)
@@ -44,7 +48,17 @@ public class Dealer
         }
     }
 
-    public void AddToPile(Card discard)
+    public void TakeDiscard(Card discard)
+    {
+        if (_topDiscard != null)
+        {
+            AddToPile(_topDiscard);
+        }
+
+        _topDiscard = discard;
+    }
+    
+    private void AddToPile(Card discard)
     {
         _discardPile.Add(discard);
     }
@@ -82,6 +96,24 @@ public class Dealer
             int k = random.Next(n + 1);
             (_deck.Cards[k], _deck.Cards[n]) = (_deck.Cards[n], _deck.Cards[k]);
         }
+    }
 
+    public Card GiveCardFrom(DrawSource drawSource)
+    {
+        Card cardToGive = null;
+
+        if (drawSource == DrawSource.Deck)
+        {
+            AddToPile(_topDiscard);
+            _topDiscard = null;
+            cardToGive = DrawFromDeck();
+        }
+        else
+        {
+            cardToGive = _topDiscard;
+            _topDiscard = null;
+        }
+
+        return cardToGive;
     }
 }
