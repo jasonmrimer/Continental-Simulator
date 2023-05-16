@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Game;
 
 public class GameController
 {
@@ -41,18 +39,14 @@ public class GameController
 
             _currentPlayerIndex = RotateToNextPlayer(_currentPlayerIndex);
             _gameWriter.DeckAndPileStatus(_dealer);
-            
         }
     }
 
     private bool ShouldContinuePlaying()
     {
-        if (_drawChoiceEnabled)
+        if (_turnCount == _turnLimit)
         {
-            if (_turnCount == _turnLimit)
-            {
-                _gameIsOver = true;
-            }
+            _gameIsOver = true;
         }
 
         return !_gameIsOver;
@@ -68,7 +62,7 @@ public class GameController
     private void PlayerDraws(Player player)
     {
         _gameWriter.TurnStart(player, _turnCount);
-        
+
         string drawSource = "deck";
         Card drawnCard;
 

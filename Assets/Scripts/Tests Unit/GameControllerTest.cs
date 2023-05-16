@@ -5,27 +5,6 @@ public class GameControllerTest
 {
     private GameController gameController;
 
-    [SetUp]
-    public void SetUp()
-    {
-    }
-
-    [Test]
-    public void PlayUntilAllCardsAreDrawnFromDeck()
-    {
-        gameController = new GameController(drawChoiceEnabled: false);
-        gameController.Play();
-        Assert.IsTrue(
-            gameController.IsFinished(),
-            "Should conclude after all cards drawn."
-        );
-        Assert.AreEqual(
-            63,
-            gameController.TurnCount(),
-            "A 4-player game should have 63 cards in deck thus 63 draws without Discard Pile"
-        );
-    }
-
     [Test]
     public void PlayHundredTurnsDeckOnlyTestRecycle()
     {
