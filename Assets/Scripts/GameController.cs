@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class GameController
@@ -22,38 +23,48 @@ public class GameController
     {
         while (ShouldContinuePlaying())
         {
-            GameWriter.PrintDeckAndPileStatus(_dealer, _turnCount);
             Player currentPlayer = _players[_currentPlayerIndex];
 
-            if (outOfCards())
+            GameWriter.PrintDeckAndPileStatus(_dealer, _turnCount, _players);
+            GameWriter.PrintTurnStart(currentPlayer, _turnCount);
+
+            if (OutOfCards())
             {
                 _gameIsOver = true;
                 break;
             }
 
             _dealer.RecyclePileIntoDeck();
-            PlayersVieForTopDiscard(_currentPlayerIndex, currentPlayer);
-            PlayerDraws(currentPlayer);
+
+            Player playerWhoDrew = null;
+            PlayersVieForTopDiscard(_currentPlayerIndex, currentPlayer, ref playerWhoDrew);
+            PlayerDraws(currentPlayer, playerWhoDrew);
             PlayerDiscards(currentPlayer);
 
             _currentPlayerIndex = RotateToNextPlayer(_currentPlayerIndex);
         }
     }
 
-    private void PlayersVieForTopDiscard(int currentPlayerIndex, Player currentPlayer)
+    private void PlayersVieForTopDiscard(
+        int currentPlayerIndex,
+        Player currentPlayer,
+        ref Player playerWhoDrew)
     {
         int playerCount = _players.Count;
-        
+
         // Normalize the startIndex within the range of the list size
         int startIndex = (currentPlayerIndex % playerCount + playerCount) % playerCount;
-        
+
         for (int i = startIndex; i < startIndex + playerCount; i++)
         {
             int index = i % playerCount;
             Player vyingPlayer = _players[index];
-            bool playerDecision = vyingPlayer.DecideWhetherToTakePenalty();
+            bool playerDecision = Player.DecideWhetherToTakePenalty();
             if (playerDecision)
             {
+                _dealer.RecyclePileIntoDeck();
+
+                playerWhoDrew = vyingPlayer;
                 Card drawnCard = _dealer.GiveCardFrom(DrawSource.Pile);
                 Card penalty = null;
                 vyingPlayer.AddToHand(drawnCard);
@@ -65,14 +76,15 @@ public class GameController
                     vyingPlayer.AddToHand(penalty);
                 }
 
-                _gameWriter.PrintPenaltyAction(vyingPlayer, drawnCard, penalty);
-                
+                GameWriter.PrintPenaltyAction(vyingPlayer, drawnCard, penalty);
+
                 return;
             }
+            Console.WriteLine($"{vyingPlayer.Name} passes on pile");
         }
     }
 
-    private bool outOfCards()
+    private bool OutOfCards()
     {
         return _dealer.DeckCardCount() == 0 && _dealer.PileCardCount() == 0;
     }
@@ -94,28 +106,29 @@ public class GameController
         return currentPlayerIndex;
     }
 
-    private void PlayerDraws(Player player)
+    private void PlayerDraws(Player player, Player playerWhoDrew)
     {
-        _gameWriter.TurnStart(player, _turnCount);
-
-        DrawSource drawSource = player.ChooseDrawSource(_dealer.TopDiscard != null);
-        Card drawnCard = _dealer.GiveCardFrom(drawSource);
-        player.AddToHand(drawnCard);
+        // GameWriter.PrintPlayerDrawsTopCard(playerWhoDrew);
         
-        _gameWriter.DrawAction(player, drawSource, drawnCard);
+        if (playerWhoDrew != player)
+        {
+            _dealer.RecyclePileIntoDeck();
+            Card drawnCard = _dealer.GiveCardFrom(DrawSource.Deck);
+            player.AddToHand(drawnCard);
+            GameWriter.PrintDrawAction(player, DrawSource.Deck, drawnCard);
+        }
     }
-    
+
     private void PlayerDiscards(Player player)
     {
         Card discard = player.DiscardFromHand();
-        _dealer.TakeDiscard(discard);
-        _gameWriter.DiscardAction(player, discard);
+        _dealer.ReceiveDiscardFromPlayer(discard);
     }
 
     private void SetupAndDeal()
     {
         // Setup
-        _players = new PlayerStub().CreatePlayers();
+        _players = new PlayerStub().CreatePlayers(_gameWriter);
         _dealer = new Dealer(new Deck(), _players);
 
         _turnCount = 1;

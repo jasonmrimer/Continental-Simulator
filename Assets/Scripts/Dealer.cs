@@ -48,16 +48,23 @@ public class Dealer
         }
     }
 
-    public void TakeDiscard(Card discard)
+    public void ReceiveDiscardFromPlayer(Card discard)
+    {
+        TransferCurrentTopDiscardToPile();
+        _topDiscard = discard;
+    }
+
+    private void TransferCurrentTopDiscardToPile()
     {
         if (_topDiscard != null)
         {
             AddToPile(_topDiscard);
         }
 
-        _topDiscard = discard;
+        _topDiscard = null;
+        
     }
-    
+
     private void AddToPile(Card discard)
     {
         _discardPile.Add(discard);
@@ -73,14 +80,7 @@ public class Dealer
         return _deck.CardCount();
     }
 
-    public Card DrawFromPile()
-    {
-        Card drawnCard = _discardPile.Last();
-        _discardPile.Remove(drawnCard);
-        return drawnCard;
-    }
-
-    public Card DrawFromDeck()
+    private Card DrawFromDeck()
     {
         return _deck.DrawCard();
     }
@@ -100,12 +100,11 @@ public class Dealer
 
     public Card GiveCardFrom(DrawSource drawSource)
     {
-        Card cardToGive = null;
+        Card cardToGive;
 
         if (drawSource == DrawSource.Deck)
         {
-            AddToPile(_topDiscard);
-            _topDiscard = null;
+            TransferCurrentTopDiscardToPile();
             cardToGive = DrawFromDeck();
         }
         else

@@ -43,7 +43,7 @@ public class PlayerTest
 
         while (chosenSources.Count < 2 && choiceCount < 100)
         {
-            chosenSources.Add(_player.ChooseDrawSource(pileIsAvailable:true));
+            chosenSources.Add(Player.ChooseDrawSource(pileIsAvailable:true));
             choiceCount++;
         }
 
@@ -52,5 +52,12 @@ public class PlayerTest
             100,
             "Player did not randomly select both within 100 tries--unlikely result indicative of failure"
         );
+    }
+    
+    [Test]
+    public void DiscardRemovesFromHand()
+    {
+        _player.DiscardFromHand();
+        Assert.AreEqual(4, _player.CardCount());
     }
 }

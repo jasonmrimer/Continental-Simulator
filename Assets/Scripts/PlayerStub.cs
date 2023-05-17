@@ -2,8 +2,12 @@ using System.Collections.Generic;
 
 public class PlayerStub
 {
-    public List<Player> CreatePlayers()
+    private GameWriter _gameWriter;
+    
+    public List<Player> CreatePlayers(GameWriter gameWriter)
     {
+        _gameWriter = gameWriter;
+        
         List<Player> players = new List<Player>
         {
             CreatePlayer("Alice"),

@@ -23,6 +23,7 @@ public class DealerObject : MonoBehaviour
     void Start()
     {
         _deck = new Deck();
+        GameWriter gameWriter = new GameWriter();
 
         Player player01 = new Player("Alice");
         Player player02 = new Player("Bob");

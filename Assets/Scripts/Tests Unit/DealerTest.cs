@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Game;
 using NUnit.Framework;
 
 [TestFixture]
@@ -12,7 +11,7 @@ public class DealerTest
     [SetUp]
     public void SetUp()
     {
-        _players = new PlayerStub().CreatePlayers();
+        _players = new PlayerStub().CreatePlayers(new GameWriter());
         _deck = new Deck();
         _dealer = new Dealer(_deck, _players);
 
@@ -31,7 +30,7 @@ public class DealerTest
     }
 
     [Test]
-    public void FacilitatesADiscardPile()
+    public void FacilitatesADiscardPileFromDeal()
     {
         Assert.AreEqual(
             0,
@@ -53,8 +52,8 @@ public class DealerTest
     public void GiveCardFromDeckTransfersTopDiscardToPile()
     {
         // in continental, once passed on the top discard cannot be accessed
-        int startingDeckCount = _dealer.DeckCardCount();
-        int startingPileCount = _dealer.PileCardCount();
+        int startingDeckCount = 63;
+        int startingPileCount = 0;
         Assert.NotNull(_dealer.TopDiscard);
 
         Card drawnCard = _dealer.GiveCardFrom(DrawSource.Deck);
@@ -93,7 +92,37 @@ public class DealerTest
         );
     }
 
-    private void AllCardsAndUnique(Player player)
+    [Test]
+    public void TakeDiscardAddsFormerToPileAndNewToTop()
+    {
+        Card startingTopCard = _dealer.TopDiscard;
+        Card discard = new Card(CardValue.Ace, Suit.Clubs);
+        int startingPileCount = _dealer.PileCardCount();
+
+        Assert.NotNull(_dealer.TopDiscard);
+
+        _dealer.ReceiveDiscardFromPlayer(discard);
+
+        Assert.AreEqual(
+            startingPileCount + 1,
+            _dealer.PileCardCount(),
+            "Did not add to discard pile"
+        );
+        
+        Assert.AreNotSame(
+            startingTopCard,
+            _dealer.TopDiscard,
+            "Did not switch top cards"
+        );
+        
+        Assert.AreSame(
+            discard,
+            _dealer.TopDiscard,
+            "Did not place new discard on top"
+        );
+    }
+
+    private static void AllCardsAndUnique(Player player)
     {
         Assert.AreEqual(11, player.CardCount());
         CollectionAssert.AllItemsAreUnique(player.Hand());
