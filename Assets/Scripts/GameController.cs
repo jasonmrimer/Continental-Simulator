@@ -9,12 +9,10 @@ public class GameController
     private int _turnCount;
     private int _currentPlayerIndex;
     private readonly int _turnLimit;
-    private readonly GameWriter _gameWriter;
 
     public GameController(int turnLimit = 100)
     {
         _turnLimit = turnLimit;
-        _gameWriter = new GameWriter();
 
         SetupAndDeal();
     }
@@ -128,7 +126,7 @@ public class GameController
     private void SetupAndDeal()
     {
         // Setup
-        _players = new PlayerStub().CreatePlayers(_gameWriter);
+        _players = PlayerStub.CreatePlayers();
         _dealer = new Dealer(new Deck(), _players);
 
         _turnCount = 1;

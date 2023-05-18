@@ -1,14 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 public class Player
 {
-    private readonly List<Card> _cards;
+    private readonly CardList _cards;
 
     public Player(string name)
     {
-        _cards = new List<Card>();
+        _cards = new CardList();
         Name = name;
     }
 
@@ -24,7 +23,7 @@ public class Player
         _cards.Add(card);
     }
 
-    public List<Card> Hand()
+    public CardList Hand()
     {
         return _cards;
     }
@@ -37,7 +36,7 @@ public class Player
         {
             printableHand += card.Printable();
 
-            if (card != _cards.Last())
+            if (!Equals(card, _cards.Last()))
             {
                 printableHand += " | ";
             }

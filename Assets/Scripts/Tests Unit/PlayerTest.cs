@@ -10,11 +10,11 @@ public class PlayerTest
     public void SetUp()
     {
         _player = new Player("Alice");
-        _player.AddToHand(new Card(CardValue.Two, Suit.Clubs));
-        _player.AddToHand(new Card(CardValue.Seven, Suit.Diamonds));
-        _player.AddToHand(new Card(CardValue.Queen, Suit.Hearts));
-        _player.AddToHand(new Card(CardValue.Ace, Suit.Spades));
-        _player.AddToHand(new Card(CardValue.Joker, Suit.Wild));
+        _player.AddToHand(new Card(Rank.Two, Suit.Clubs));
+        _player.AddToHand(new Card(Rank.Seven, Suit.Diamonds));
+        _player.AddToHand(new Card(Rank.Queen, Suit.Hearts));
+        _player.AddToHand(new Card(Rank.Ace, Suit.Spades));
+        _player.AddToHand(new Card(Rank.Joker, Suit.Wild));
     }
 
     [Test]

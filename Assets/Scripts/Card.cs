@@ -1,6 +1,6 @@
-using Game;
+using System;
 
-public enum CardValue
+public enum Rank
 {
     Joker = 0,
     Ace = 1,
@@ -20,36 +20,36 @@ public enum CardValue
 
 public class Card
 {
-    public Suit suit;
-    public CardValue value;
+    public readonly Suit Suit;
+    public readonly Rank Rank;
 
-    public Card(CardValue value, Suit suit)
+    public Card(Rank rank, Suit suit)
     {
-        this.suit = suit;
-        this.value = value;
+        this.Suit = suit;
+        this.Rank = rank;
     }
 
     public string ValueText()
     {
-        switch (this.value) {
-            case CardValue.Ace:
+        switch (this.Rank) {
+            case Rank.Ace:
                 return "A";
-            case CardValue.Jack:
+            case Rank.Jack:
                 return "J";
-            case CardValue.Queen:
+            case Rank.Queen:
                 return "Q";
-            case CardValue.King:
+            case Rank.King:
                 return "K";
-            case CardValue.Joker:
+            case Rank.Joker:
                 return "Jo";
             default:
-                return ((int)this.value).ToString();
+                return ((int)this.Rank).ToString();
         } 
     }
     
     public string SuitSymbol()
     {
-        switch (this.suit) {
+        switch (this.Suit) {
             case Suit.Hearts:
                 return "♥";
             case Suit.Diamonds:
@@ -67,6 +67,25 @@ public class Card
 
     public string Printable()
     {
-        return $"{this.ValueText()}{this.SuitSymbol()}";
+        return $"{ValueText()}{this.SuitSymbol()}";
+    }
+
+    public override string ToString()
+    {
+        return $"{Printable()}";
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is not Card objCard)
+        {
+            return false;
+        }
+        return objCard.Rank == Rank && objCard.Suit == Suit;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Rank, Suit);
     }
 }
