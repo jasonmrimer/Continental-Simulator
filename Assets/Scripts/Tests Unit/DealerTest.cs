@@ -96,7 +96,7 @@ public class DealerTest
     public void TakeDiscardAddsFormerToPileAndNewToTop()
     {
         Card startingTopCard = _dealer.TopDiscard;
-        Card discard = new Card(CardValue.Ace, Suit.Clubs);
+        Card discard = new Card(Rank.Ace, Suit.Clubs);
         int startingPileCount = _dealer.PileCardCount();
 
         Assert.NotNull(_dealer.TopDiscard);

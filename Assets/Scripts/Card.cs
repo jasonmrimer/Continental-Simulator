@@ -1,6 +1,6 @@
 using Game;
 
-public enum CardValue
+public enum Rank
 {
     Joker = 0,
     Ace = 1,
@@ -21,29 +21,29 @@ public enum CardValue
 public class Card
 {
     public Suit suit;
-    public CardValue value;
+    public Rank rank;
 
-    public Card(CardValue value, Suit suit)
+    public Card(Rank rank, Suit suit)
     {
         this.suit = suit;
-        this.value = value;
+        this.rank = rank;
     }
 
     public string ValueText()
     {
-        switch (this.value) {
-            case CardValue.Ace:
+        switch (this.rank) {
+            case Rank.Ace:
                 return "A";
-            case CardValue.Jack:
+            case Rank.Jack:
                 return "J";
-            case CardValue.Queen:
+            case Rank.Queen:
                 return "Q";
-            case CardValue.King:
+            case Rank.King:
                 return "K";
-            case CardValue.Joker:
+            case Rank.Joker:
                 return "Jo";
             default:
-                return ((int)this.value).ToString();
+                return ((int)this.rank).ToString();
         } 
     }
     
@@ -68,5 +68,10 @@ public class Card
     public string Printable()
     {
         return $"{this.ValueText()}{this.SuitSymbol()}";
+    }
+
+    public override string ToString()
+    {
+        return $"Card {this.Printable()}";
     }
 }

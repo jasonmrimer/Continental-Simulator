@@ -31,16 +31,16 @@ public class Deck
     {
         for (int j = 1; j <= 13; j++)
         {
-            CardValue cardValue = (CardValue)j;
-            Card card = new Card(cardValue, suit);
+            Rank rank = (Rank)j;
+            Card card = new Card(rank, suit);
             _cards.Add(card);
         }
     }
 
     private void CreateJokers(Suit suit)
     {
-        Card joker1 = new Card(CardValue.Joker, suit);
-        Card joker2 = new Card(CardValue.Joker, suit);
+        Card joker1 = new Card(Rank.Joker, suit);
+        Card joker2 = new Card(Rank.Joker, suit);
         _cards.Add(joker1);
         _cards.Add(joker2);
     }

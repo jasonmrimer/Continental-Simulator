@@ -6,9 +6,9 @@ public class CardTest
     [Test]
     public void PrintableFormat()
     {
-        Card numberCard = new Card(CardValue.Five, Suit.Clubs);
-        Card faceCard = new Card(CardValue.Queen, Suit.Hearts);
-        Card jokerCard = new Card(CardValue.Joker, Suit.Wild);
+        Card numberCard = new Card(Rank.Five, Suit.Clubs);
+        Card faceCard = new Card(Rank.Queen, Suit.Hearts);
+        Card jokerCard = new Card(Rank.Joker, Suit.Wild);
         
         Assert.AreEqual("5♣", numberCard.Printable());
         Assert.AreEqual("Q♥", faceCard.Printable());
