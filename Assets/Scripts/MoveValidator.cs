@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game;
+using NUnit.Framework;
 
 public class MoveValidator
 {
@@ -21,7 +23,41 @@ public class MoveValidator
 
     private static List<Card> CheckAndCollectAtama(List<Card> hand)
     {
+        List<Card> atama = new List<Card>();
+        List<Card> sortedCards = hand.OrderBy(card => card.rank).ToList();
+
+        Card previousCard = null;
+        Card currentCard = null;
+        atama.Add(sortedCards[0]);
+
+        for (int i = 1; i < sortedCards.Count; i++)
+        {
+            previousCard = atama[i - 1];
+            currentCard = sortedCards[i];
+
+            if (IsEqualRank(previousCard, currentCard))
+            {
+                atama.Add(currentCard);
+            }
+            else
+            {
+                atama.Clear();
+                atama.Add(currentCard);
+            }
+
+            if (atama.Count == 3)
+            {
+                hand.RemoveAll(card => atama.Contains(card));
+                return atama;
+            }
+            
+        }
         return new List<Card>();
+    }
+
+    private static bool IsEqualRank(Card card1, Card card2)
+    {
+        return card1.rank == card2.rank;
     }
 
     private static List<Card> CheckAndCollectRun(List<Card> hand)
@@ -62,7 +98,7 @@ public class MoveValidator
             }
         }
 
-        return null;
+        return new List<Card>();
     }
 
     private static bool IsConsecutiveRank(Card card1, Card card2)
