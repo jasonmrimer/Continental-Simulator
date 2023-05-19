@@ -12,7 +12,14 @@ public class RunFinder
         {
             
             List<Card> sortedCards = suitGroup.OrderBy(card => card.Rank).ToList();
-
+            Card aceInGroup = sortedCards.Find(card => card.Rank == Rank.Ace);
+           
+            // add Ace to end for run check
+            if (aceInGroup != null)
+            {
+                sortedCards.Add(aceInGroup);
+            }
+            
             for (int startIndex = 0; startIndex < sortedCards.Count; startIndex++)
             {
                 for (int endIndex = startIndex + 3; endIndex < sortedCards.Count; endIndex++)
@@ -57,16 +64,41 @@ public class RunFinder
         return runOptions;
     }
 
-    private static bool IsRun(List<Card> potentialRun)
+    private static bool IsRun(List<Card> suitedAndSortedCards)
     {
-        for (int i = 1; i < potentialRun.Count; i++)
+        // Check if the cards form a run (straight flush)
+        
+        // Sort the cards by rank
+        // potentialRunOfSuitedCards.Sort();
+
+        // Check if the cards have consecutive ranks, accounting for Aces as both 1 and 14
+        for (int i = 1; i < suitedAndSortedCards.Count; i++)
         {
-            if (potentialRun[i].Rank != potentialRun[i - 1].Rank + 1)
+            Rank currentRank = suitedAndSortedCards[i].Rank;
+            Rank previousRank = suitedAndSortedCards[i - 1].Rank;
+
+            if (previousRank == Rank.Ace)
+            {
+                if (currentRank != Rank.Two)
+                {
+                    return false;
+                }
+
+            }
+            else if (previousRank == Rank.King)
+            {
+                // Handle Ace as both 1 and 14
+                if (currentRank != Rank.Ace)
+                {
+                    return false;
+                }
+            }
+            else if (currentRank != previousRank + 1)
             {
                 return false;
             }
         }
-
+        
         return true;
     }
 
