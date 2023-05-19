@@ -17,7 +17,7 @@ namespace Game
 
         private void ChooseFontColor(Card card)
         {
-            switch (card.suit)
+            switch (card.Suit)
             {
                 case Suit.Hearts:
                 case Suit.Diamonds:

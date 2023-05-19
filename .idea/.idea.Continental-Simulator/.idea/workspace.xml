@@ -6,7 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="5003e427-b05c-4028-8b40-0d4084147efb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Continental-Simulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Continental-Simulator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Hand.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Hand.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Card.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Card.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CardVisual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CardVisual.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DealerObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DealerObject.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/MoveValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MoveValidator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerStub.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerStub.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tests Game.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/DealerTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/DealerTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/MoveValidatorTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tests Unit/MoveValidatorTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +54,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.smartKeys_rider",
+    "settings.editor.selected.configurable": "RiderTestRunnerUnitTestingPageId",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -56,7 +65,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="6ef93c09-d729-4af2-8845-cf7c4cf5afb0">
+  <component name="RunManager" selected="123305a0-38cd-4d27-9a14-da50135fb829">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/2021.3.24f1/Unity.app/Contents/MacOS/Unity" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath $PROJECT_DIR$ -debugCodeOptimization" />
@@ -112,7 +121,7 @@
       <workItem from="1683942137891" duration="2098000" />
       <workItem from="1683944243128" duration="30921000" />
       <workItem from="1684218859508" duration="1414000" />
-      <workItem from="1684220290601" duration="18849000" />
+      <workItem from="1684220290601" duration="26845000" />
     </task>
     <servers />
   </component>

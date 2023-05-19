@@ -24,7 +24,7 @@ public class MoveValidator
     private static List<Card> CheckAndCollectAtama(List<Card> hand)
     {
         List<Card> atama = new List<Card>();
-        List<Card> sortedCards = hand.OrderBy(card => card.rank).ToList();
+        List<Card> sortedCards = hand.OrderBy(card => card.Rank).ToList();
 
         Card previousCard = null;
         Card currentCard = null;
@@ -57,20 +57,25 @@ public class MoveValidator
 
     private static bool IsEqualRank(Card card1, Card card2)
     {
-        return card1.rank == card2.rank;
+        return card1.Rank == card2.Rank;
     }
 
     private static List<Card> CheckAndCollectRun(List<Card> hand)
     {
         List<Card> run = new List<Card>();
-        IEnumerable<IGrouping<Suit, Card>> suitGroups = hand.GroupBy(card => card.suit);
+        IEnumerable<IGrouping<Suit, Card>> suitGroups = hand.GroupBy(card => card.Suit);
 
         foreach (IGrouping<Suit, Card> suitGroup in suitGroups)
         {
             run.Clear();
 
-            List<Card> sortedCards = suitGroup.OrderBy(card => card.rank).ToList();
+            List<Card> sortedCards = suitGroup.OrderBy(card => card.Rank).ToList();
 
+            if (sortedCards.Count < 4)
+            {
+                break;
+            }
+            
             Card previousCard = null;
             Card currentCard = null;
             run.Add(sortedCards[0]);
@@ -103,6 +108,11 @@ public class MoveValidator
 
     private static bool IsConsecutiveRank(Card card1, Card card2)
     {
-        return card1.rank + 1 == card2.rank;
+        return card1.Rank + 1 == card2.Rank;
+    }
+
+    public static List<Dashita> DashitaOptions()
+    {
+        return new List<Dashita>();
     }
 }

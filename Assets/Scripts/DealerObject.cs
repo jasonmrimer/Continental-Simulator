@@ -23,21 +23,9 @@ public class DealerObject : MonoBehaviour
     void Start()
     {
         _deck = new Deck();
-        GameWriter gameWriter = new GameWriter();
 
-        Player player01 = new Player("Alice");
-        Player player02 = new Player("Bob");
-        Player player03 = new Player("Chade");
-        Player player04 = new Player("Dani");
-
-        _players = new List<Player>(4)
-        {
-            player01,
-            player02,
-            player03,
-            player04
-        };
-
+        _players = PlayerStub.CreatePlayers();
+        
         _dealer = new Dealer(_deck, _players);
         //
         // _playerObjects = new List<GameObject>(4)
@@ -50,10 +38,10 @@ public class DealerObject : MonoBehaviour
 
         playerToObjectDict = new Dictionary<Player, GameObject>();
 
-        playerToObjectDict.Add(player01, P1_Hand);
-        playerToObjectDict.Add(player02, P2_Hand);
-        playerToObjectDict.Add(player03, P3_Hand);
-        playerToObjectDict.Add(player04, P4_Hand);
+        playerToObjectDict.Add(_players[0], P1_Hand);
+        playerToObjectDict.Add(_players[1], P2_Hand);
+        playerToObjectDict.Add(_players[2], P3_Hand);
+        playerToObjectDict.Add(_players[3], P4_Hand);
     }
 
     public void OnClick()

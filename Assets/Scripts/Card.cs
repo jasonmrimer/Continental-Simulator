@@ -20,18 +20,18 @@ public enum Rank
 
 public class Card
 {
-    public Suit suit;
-    public Rank rank;
+    public readonly Suit Suit;
+    public readonly Rank Rank;
 
     public Card(Rank rank, Suit suit)
     {
-        this.suit = suit;
-        this.rank = rank;
+        this.Suit = suit;
+        this.Rank = rank;
     }
 
     public string ValueText()
     {
-        switch (this.rank) {
+        switch (this.Rank) {
             case Rank.Ace:
                 return "A";
             case Rank.Jack:
@@ -43,13 +43,13 @@ public class Card
             case Rank.Joker:
                 return "Jo";
             default:
-                return ((int)this.rank).ToString();
+                return ((int)this.Rank).ToString();
         } 
     }
     
     public string SuitSymbol()
     {
-        switch (this.suit) {
+        switch (this.Suit) {
             case Suit.Hearts:
                 return "♥";
             case Suit.Diamonds:
@@ -72,6 +72,6 @@ public class Card
 
     public override string ToString()
     {
-        return $"Card {this.Printable()}";
+        return $"{this.Printable()}";
     }
 }

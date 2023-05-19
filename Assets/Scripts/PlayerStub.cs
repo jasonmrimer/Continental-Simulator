@@ -2,11 +2,8 @@ using System.Collections.Generic;
 
 public class PlayerStub
 {
-    private GameWriter _gameWriter;
-    
-    public List<Player> CreatePlayers(GameWriter gameWriter)
+    public static List<Player> CreatePlayers()
     {
-        _gameWriter = gameWriter;
         
         List<Player> players = new List<Player>
         {
@@ -19,7 +16,7 @@ public class PlayerStub
         return players;
     }
 
-    private Player CreatePlayer(string name)
+    private static Player CreatePlayer(string name)
     {
         // Customize the player creation logic as needed
         return new Player(name);

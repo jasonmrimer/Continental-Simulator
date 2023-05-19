@@ -11,7 +11,7 @@ public class DealerTest
     [SetUp]
     public void SetUp()
     {
-        _players = new PlayerStub().CreatePlayers(new GameWriter());
+        _players = PlayerStub.CreatePlayers();
         _deck = new Deck();
         _dealer = new Dealer(_deck, _players);
 
