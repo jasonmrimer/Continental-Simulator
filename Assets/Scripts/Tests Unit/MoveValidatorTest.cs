@@ -80,7 +80,7 @@ public class MoveValidatorTest
     [Test]
     public void DetectsTwoRunsAndAtama()
     {
-        Dashita dashita = MoveValidator.CheckAndCreateDashita(_player);
+        Dashita dashita = DashitaGenerator.CheckAndCreateDashita(_player);
         List<Card> actualRunOne = dashita.RunOne;
         List<Card> actualRunTwo = dashita.RunTwo;
         List<Card> actualAtama = dashita.Atama;
@@ -125,7 +125,7 @@ public class MoveValidatorTest
             run2Cto6C, _run07Dto10D, _atamaJacks
         );
 
-        List<Dashita> dashitaOptions = MoveValidator.DashitaOptions();
+        List<Dashita> dashitaOptions = DashitaGenerator.DashitaOptions();
 
         Assert.AreEqual(
             3,

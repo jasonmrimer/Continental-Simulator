@@ -4,7 +4,7 @@ using System.Linq;
 using Game;
 using NUnit.Framework;
 
-public class MoveValidator
+public class DashitaGenerator
 {
     public static Dashita CheckAndCreateDashita(Player player)
     {
