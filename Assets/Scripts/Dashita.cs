@@ -40,26 +40,36 @@ public class Dashita
         }
 
         Dashita other = obj as Dashita;
-        
+
+        List<CardList> orderedOtherRuns = other.Runs.OrderBy(run => run[0].Rank).ToList();
+        List<CardList> orderedBaseRuns = this.Runs.OrderBy(run => run[0].Rank).ToList();
+
+
         // Check if the number of runs and atama is the same
         if (Runs.Count != other.Runs.Count || Atama.Count != other.Atama.Count)
             return false;
-        
+
         // Check if the runs have the same rank and suits
         for (int i = 0; i < Runs.Count; i++)
         {
-            if (!Runs[i].Equals(other.Runs[i]))
+            if (!orderedBaseRuns[i].Equals(orderedOtherRuns[i]))
                 return false;
         }
 
-        // Check if the atama have the same cards
-        for (int i = 0; i < Atama.Count; i++)
+        if (AtamasNotEqual(other))
         {
-            if (!Atama[i].Equals(other.Atama[i]))
-                return false;
+            return false;
         }
 
         return true;
+    }
+
+    private bool AtamasNotEqual(Dashita other)
+    {
+        bool countIsDifferent = other.Atama.Count != Atama.Count;
+        bool cardsAreDifferent =
+            !(other.Atama.OrderBy(card => card.Suit).SequenceEqual(Atama.OrderBy(card => card.Suit)));
+        return countIsDifferent || cardsAreDifferent;
     }
 
     public override string ToString()

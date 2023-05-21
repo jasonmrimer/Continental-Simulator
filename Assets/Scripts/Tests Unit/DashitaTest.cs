@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using NUnit.Framework;
 
 [TestFixture]
@@ -36,7 +37,7 @@ public class DashitaTest
         _cardJaH1 = new Card(Rank.Jack, Suit.Hearts);
         _cardJaH2 = new Card(Rank.Jack, Suit.Hearts);
         _cardJaS = new Card(Rank.Jack, Suit.Spades);
-        
+
         _run02Cto05C = new CardList
         {
             _card02C,
@@ -68,12 +69,68 @@ public class DashitaTest
             new List<CardList> { _run02Cto05C, _run07Dto10D },
             _atamaJacks
         );
-        
+
         Dashita dashita2 = new Dashita(
             new List<CardList> { _run02Cto05C, _run07Dto10D },
             _atamaJacks
         );
-        
+
+        Assert.AreEqual(dashita1, dashita2);
+    }
+
+    [Test]
+    public void NotEquals()
+    {
+        CardList run02Cto06C = new(_run02Cto05C);
+        run02Cto06C.Add(new Card(Rank.Six, Suit.Clubs));
+
+        Dashita dashita1 = new Dashita(
+            new List<CardList> { run02Cto06C, _run07Dto10D },
+            _atamaJacks
+        );
+
+        Dashita dashita2 = new Dashita(
+            new List<CardList> { _run02Cto05C, _run07Dto10D },
+            _atamaJacks
+        );
+
+        Assert.AreNotEqual(dashita1, dashita2);
+    }
+
+    [Test]
+    public void EqualsWithRunOrderChange()
+    {
+        Dashita dashita1 = new Dashita(
+            new List<CardList> { _run07Dto10D, _run02Cto05C },
+            _atamaJacks
+        );
+
+        Dashita dashita2 = new Dashita(
+            new List<CardList> { _run02Cto05C, _run07Dto10D },
+            _atamaJacks
+        );
+
+        Assert.AreEqual(dashita1, dashita2);
+    }
+
+    [Test]
+    public void EqualsWithAtamaOrderChange()
+    {
+        CardList atamaJacksMix = new()
+        {
+            _cardJaH2, _cardJaS, _cardJaH1
+        };
+
+        Dashita dashita1 = new Dashita(
+            new List<CardList> { _run07Dto10D, _run02Cto05C },
+            _atamaJacks
+        );
+
+        Dashita dashita2 = new Dashita(
+            new List<CardList> { _run02Cto05C, _run07Dto10D },
+            atamaJacksMix
+        );
+
         Assert.AreEqual(dashita1, dashita2);
     }
 }
