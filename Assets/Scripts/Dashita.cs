@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Dashita
 {
@@ -31,38 +32,47 @@ public class Dashita
 
     public List<CardList> Runs { get; }
 
-    public override bool Equals(object obj)
+    public override bool Equals(Object obj)
     {
         if (obj == null)
         {
             return false;
         }
+
+        Dashita other = obj as Dashita;
         
-        Dashita dashita = obj as Dashita;
-        
-        if (obj.GetType() != GetType())
-        {
+        // Check if the number of runs and atama is the same
+        if (Runs.Count != other.Runs.Count || Atama.Count != other.Atama.Count)
             return false;
-        }
-
-
-        if (dashita.Atama.Equals(Atama) && dashita.Runs.Equals(Runs))
+        
+        // Check if the runs have the same rank and suits
+        for (int i = 0; i < Runs.Count; i++)
         {
-            Console.WriteLine("===========hw");
-            return true;
+            if (!Runs[i].Equals(other.Runs[i]))
+                return false;
         }
 
-        return false;
+        // Check if the atama have the same cards
+        for (int i = 0; i < Atama.Count; i++)
+        {
+            if (!Atama[i].Equals(other.Atama[i]))
+                return false;
+        }
+
+        return true;
     }
 
     public override string ToString()
     {
         string message = "";
-        
+
         foreach (List<Card> run in Runs)
         {
             message += $"{run}\n";
         }
+
+        message += Atama.ToString();
+
         return message;
     }
 }

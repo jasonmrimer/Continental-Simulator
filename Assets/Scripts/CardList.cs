@@ -21,4 +21,5 @@ public class CardList: List<Card>
     {
         return this.Aggregate("", (current, card) => current + $"{card}, ");
     }
+
 }
