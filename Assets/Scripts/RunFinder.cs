@@ -3,9 +3,9 @@ using System.Linq;
 
 public class RunFinder
 {
-    public static List<List<Card>> FindPossibleRuns(List<Card> cards)
+    public static List<CardList> FindPossibleRuns(List<Card> cards)
     {
-        List<List<Card>> runOptions = new();
+        List<CardList> runOptions = new();
         IEnumerable<IGrouping<Suit, Card>> suitGroups = cards.GroupBy(card => card.Suit);
 
         foreach (IGrouping<Suit, Card> suitGroup in suitGroups)
@@ -24,7 +24,7 @@ public class RunFinder
             {
                 for (int endIndex = startIndex + 3; endIndex < sortedCards.Count; endIndex++)
                 {
-                    List<Card> run = new();
+                    CardList run = new();
         
                     for (int i = startIndex; i <= endIndex; i++)
                     {

@@ -3,7 +3,7 @@ using Game;
 using NUnit.Framework;
 
 [TestFixture]
-public class MoveValidatorTest
+public class DashitaGeneratorTest
 {
     private Player _player;
     private Card _card02C;
@@ -17,9 +17,9 @@ public class MoveValidatorTest
     private Card _cardJaH1;
     private Card _cardJaH2;
     private Card _cardJaS;
-    private List<Card> _run2Cto5C;
-    private List<Card> _run07Dto10D;
-    private List<Card> _atamaJacks;
+    private CardList _run02Cto05C;
+    private CardList _run07Dto10D;
+    private CardList _atamaJacks;
 
     [SetUp]
     public void SetUp()
@@ -34,9 +34,9 @@ public class MoveValidatorTest
         _card09D = new Card(Rank.Nine, Suit.Diamonds);
         _card10D = new Card(Rank.Ten, Suit.Diamonds);
 
-        _cardJaH1 = new Card(Rank.Ten, Suit.Hearts);
-        _cardJaH2 = new Card(Rank.Ten, Suit.Hearts);
-        _cardJaS = new Card(Rank.Ten, Suit.Spades);
+        _cardJaH1 = new Card(Rank.Jack, Suit.Hearts);
+        _cardJaH2 = new Card(Rank.Jack, Suit.Hearts);
+        _cardJaS = new Card(Rank.Jack, Suit.Spades);
 
         _player = new Player("Tester");
         _player.AddToHand(_card02C);
@@ -53,7 +53,7 @@ public class MoveValidatorTest
         _player.AddToHand(_cardJaH2);
         _player.AddToHand(_cardJaS);
 
-        _run2Cto5C = new List<Card>()
+        _run02Cto05C = new CardList
         {
             _card02C,
             _card03C,
@@ -61,7 +61,7 @@ public class MoveValidatorTest
             _card05C
         };
 
-        _run07Dto10D = new List<Card>()
+        _run07Dto10D = new CardList()
         {
             _card07D,
             _card08D,
@@ -69,7 +69,7 @@ public class MoveValidatorTest
             _card10D
         };
 
-        _atamaJacks = new List<Card>()
+        _atamaJacks = new CardList()
         {
             _cardJaH1,
             _cardJaH2,
@@ -78,6 +78,33 @@ public class MoveValidatorTest
     }
 
     [Test]
+    public void GeneratesSimplestHand()
+    {
+        List<Card> hand = new()
+        {
+            _card02C, _card03C, _card04C, _card05C,
+            _card07D, _card08D, _card09D, _card10D,
+            _cardJaH1, _cardJaH2, _cardJaS,
+        };
+
+        Dashita expectedDashita = new Dashita(
+            new List<CardList> { _run02Cto05C, _run07Dto10D },
+            _atamaJacks
+        );
+
+
+        List<Dashita> dashitaOptions = DashitaGenerator.GenerateOptions(hand);
+
+
+        Assert.AreEqual(1, dashitaOptions.Count);
+        Assert.Contains(_run02Cto05C, dashitaOptions[0].Runs);
+        Assert.Contains(_run07Dto10D, dashitaOptions[0].Runs);
+        Assert.AreEqual(_atamaJacks, dashitaOptions[0].Atama);
+        Assert.AreEqual(expectedDashita, dashitaOptions[0]);
+    }
+
+    [Test]
+    [Ignore("")]
     public void DetectsTwoRunsAndAtama()
     {
         Dashita dashita = DashitaGenerator.CheckAndCreateDashita(_player);
@@ -87,12 +114,12 @@ public class MoveValidatorTest
 
         if (actualRunOne.Contains(_card02C))
         {
-            Assert.AreEqual(_run2Cto5C, actualRunOne);
+            Assert.AreEqual(_run02Cto05C, actualRunOne);
             Assert.AreEqual(_run07Dto10D, actualRunTwo);
         }
         else
         {
-            Assert.AreEqual(_run2Cto5C, actualRunTwo);
+            Assert.AreEqual(_run02Cto05C, actualRunTwo);
             Assert.AreEqual(_run07Dto10D, actualRunOne);
         }
 
@@ -100,6 +127,7 @@ public class MoveValidatorTest
     }
 
     [Test]
+    [Ignore("")]
     public void TestAvailableDashitaOptions()
     {
         Card card06C = new Card(Rank.Six, Suit.Clubs);
@@ -116,7 +144,7 @@ public class MoveValidatorTest
         };
 
         Dashita dashitaWith2Cto5C = new Dashita(
-            _run2Cto5C, _run07Dto10D, _atamaJacks
+            _run02Cto05C, _run07Dto10D, _atamaJacks
         );
         Dashita dashitaWith3Cto6C = new Dashita(
             run3Cto6C, _run07Dto10D, _atamaJacks

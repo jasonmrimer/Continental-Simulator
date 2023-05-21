@@ -3,19 +3,19 @@ using System.Linq;
 
 public class AtamaFinder
 {
-    public static List<List<Card>> FindAtama(List<Card> cards)
+    public static List<CardList> FindAtama(List<Card> cards)
     {
-        List<List<Card>> atamaOptions = new List<List<Card>>();
-        Dictionary<Rank, List<Card>> rankGroups = GroupCardsByRank(cards);
+        List<CardList> atamaOptions = new();
+        Dictionary<Rank, CardList> rankGroups = GroupCardsByRank(cards);
 
         foreach (var rankGroup in rankGroups)
         {
-            List<Card> cardsOfCurrentRank = rankGroup.Value;
+            CardList cardsOfCurrentRank = rankGroup.Value;
             if (cardsOfCurrentRank.Count >= 3)
             {
                 GenerateAtamaCombinations(
                     cardsOfCurrentRank,
-                    currentCombination: new List<Card>(),
+                    currentCombination: new CardList(),
                     atamaOptions
                 );
             }
@@ -25,13 +25,14 @@ public class AtamaFinder
     }
 
     private static void GenerateAtamaCombinations(
-        List<Card> cards,
-        List<Card> currentCombination,
-        List<List<Card>> combinations)
+        CardList cards,
+        CardList currentCombination,
+        List<CardList> combinations
+    )
     {
         if (currentCombination.Count >= 3)
         {
-            List<Card> atamaSortedToPreventDupes = new(currentCombination.OrderBy(card => card.Suit));
+            CardList atamaSortedToPreventDupes = new(currentCombination.OrderBy(card => card.Suit));
             combinations.Add(atamaSortedToPreventDupes);
         }
 
@@ -41,8 +42,9 @@ public class AtamaFinder
             currentCombination.Add(card);
 
             // Recursive call with remaining cards to generate combinations
+            CardList range = new CardList(cards.GetRange(i + 1, cards.Count - (i + 1)));
             GenerateAtamaCombinations(
-                cards.GetRange(i + 1, cards.Count - (i + 1)),
+                range,
                 currentCombination,
                 combinations
             );
@@ -51,15 +53,15 @@ public class AtamaFinder
         }
     }
 
-    private static Dictionary<Rank, List<Card>> GroupCardsByRank(List<Card> cards)
+    private static Dictionary<Rank, CardList> GroupCardsByRank(List<Card> cards)
     {
-        Dictionary<Rank, List<Card>> rankGroups = new Dictionary<Rank, List<Card>>();
+        Dictionary<Rank, CardList> rankGroups = new Dictionary<Rank, CardList>();
 
         foreach (Card card in cards)
         {
             if (!rankGroups.ContainsKey(card.Rank))
             {
-                rankGroups[card.Rank] = new List<Card>();
+                rankGroups[card.Rank] = new CardList();
             }
 
             rankGroups[card.Rank].Add(card);

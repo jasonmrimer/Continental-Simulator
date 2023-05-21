@@ -50,8 +50,8 @@ public class DashitaGenerator
                 hand.RemoveAll(card => atama.Contains(card));
                 return atama;
             }
-            
         }
+
         return new List<Card>();
     }
 
@@ -75,7 +75,7 @@ public class DashitaGenerator
             {
                 break;
             }
-            
+
             Card previousCard = null;
             Card currentCard = null;
             run.Add(sortedCards[0]);
@@ -84,7 +84,7 @@ public class DashitaGenerator
             {
                 previousCard = run[i - 1];
                 currentCard = sortedCards[i];
-                
+
                 if (IsConsecutiveRank(previousCard, currentCard))
                 {
                     run.Add(currentCard);
@@ -114,5 +114,19 @@ public class DashitaGenerator
     public static List<Dashita> DashitaOptions()
     {
         return new List<Dashita>();
+    }
+
+    public static List<Dashita> GenerateOptions(List<Card> hand)
+    {
+        List<CardList> runOptions = RunFinder.FindPossibleRuns(hand);
+        List<CardList> atamaOptions = AtamaFinder.FindAtama(hand);
+
+        return new List<Dashita>
+        {
+            new(
+                runOptions,
+                atamaOptions[0]
+            )
+        };
     }
 }
