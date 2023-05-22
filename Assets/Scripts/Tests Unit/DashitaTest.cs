@@ -20,6 +20,7 @@ public class DashitaTest
     private CardList _run02Cto05C;
     private CardList _run07Dto10D;
     private CardList _atamaJacks;
+    private CardList _run02Cto05Cv2;
 
     [SetUp]
     public void SetUp()
@@ -40,25 +41,25 @@ public class DashitaTest
 
         _run02Cto05C = new CardList
         {
-            _card02C,
-            _card03C,
-            _card04C,
-            _card05C
+            _card02C, _card03C, _card04C, _card05C
+            
+        };
+
+        _run02Cto05Cv2 = new CardList
+        {
+            _card02C, _card03C, _card04C, _card05C
+            
         };
 
         _run07Dto10D = new CardList()
         {
-            _card07D,
-            _card08D,
-            _card09D,
-            _card10D
+            _card07D, _card08D, _card09D, _card10D
         };
 
         _atamaJacks = new CardList()
         {
-            _cardJaH1,
-            _cardJaH2,
-            _cardJaS,
+            _cardJaH1, _cardJaH2, _cardJaS,
+            
         };
     }
 
@@ -71,7 +72,7 @@ public class DashitaTest
         );
 
         Dashita dashita2 = new Dashita(
-            new List<CardList> { _run02Cto05C, _run07Dto10D },
+            new List<CardList> { _run02Cto05Cv2, _run07Dto10D },
             _atamaJacks
         );
 
