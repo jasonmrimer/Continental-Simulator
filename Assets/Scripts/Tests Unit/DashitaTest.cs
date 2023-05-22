@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using NUnit.Framework;
+using UnityEditor.IMGUI.Controls;
 
 [TestFixture]
 public class DashitaTest
@@ -17,10 +18,9 @@ public class DashitaTest
     private Card _cardJaH1;
     private Card _cardJaH2;
     private Card _cardJaS;
-    private CardList _run02Cto05C;
-    private CardList _run07Dto10D;
-    private CardList _atamaJacks;
-    private CardList _run02Cto05Cv2;
+    private Run _run02Cto05C;
+    private Run _run07Dto10D;
+    private Atama _atamaJacks;
 
     [SetUp]
     public void SetUp()
@@ -39,99 +39,103 @@ public class DashitaTest
         _cardJaH2 = new Card(Rank.Jack, Suit.Hearts);
         _cardJaS = new Card(Rank.Jack, Suit.Spades);
 
-        _run02Cto05C = new CardList
+        new CardList
         {
             _card02C, _card03C, _card04C, _card05C
-            
         };
 
-        _run02Cto05Cv2 = new CardList
+        _run02Cto05C = new Run { _card02C, _card03C, _card04C, _card05C };
+        _run07Dto10D = new Run { _card07D, _card08D, _card09D, _card10D };
+
+        new CardList
         {
             _card02C, _card03C, _card04C, _card05C
-            
         };
 
-        _run07Dto10D = new CardList()
+        new CardList()
         {
             _card07D, _card08D, _card09D, _card10D
         };
 
-        _atamaJacks = new CardList()
+
+        new CardList()
         {
             _cardJaH1, _cardJaH2, _cardJaS,
-            
         };
+        _atamaJacks = new Atama() { _cardJaH1, _cardJaH2, _cardJaS, };
     }
 
     [Test]
     public void Equals()
     {
         Dashita dashita1 = new Dashita(
-            new List<CardList> { _run02Cto05C, _run07Dto10D },
+            new List<Run> { _run02Cto05C, _run07Dto10D },
             _atamaJacks
         );
 
         Dashita dashita2 = new Dashita(
-            new List<CardList> { _run02Cto05Cv2, _run07Dto10D },
+            new List<Run> { _run02Cto05C, _run07Dto10D },
             _atamaJacks
         );
 
-        Assert.AreEqual(dashita1, dashita2);
+        Assert.IsTrue(dashita1.Equals(dashita2));
     }
 
     [Test]
     public void NotEquals()
     {
-        CardList run02Cto06C = new(_run02Cto05C);
+        Run run02Cto06C = new(_run02Cto05C);
         run02Cto06C.Add(new Card(Rank.Six, Suit.Clubs));
 
         Dashita dashita1 = new Dashita(
-            new List<CardList> { run02Cto06C, _run07Dto10D },
+            new List<Run> { run02Cto06C, _run07Dto10D },
             _atamaJacks
         );
 
         Dashita dashita2 = new Dashita(
-            new List<CardList> { _run02Cto05C, _run07Dto10D },
+            new List<Run> { _run02Cto05C, _run07Dto10D },
             _atamaJacks
         );
 
-        Assert.AreNotEqual(dashita1, dashita2);
+
+        Assert.IsFalse(dashita1.Equals(dashita2));
     }
 
     [Test]
     public void EqualsWithRunOrderChange()
     {
+       
         Dashita dashita1 = new Dashita(
-            new List<CardList> { _run07Dto10D, _run02Cto05C },
+            new List<Run> { _run07Dto10D, _run02Cto05C },
             _atamaJacks
         );
 
         Dashita dashita2 = new Dashita(
-            new List<CardList> { _run02Cto05C, _run07Dto10D },
+            new List<Run> { _run02Cto05C, _run07Dto10D },
             _atamaJacks
         );
 
-        Assert.AreEqual(dashita1, dashita2);
+        Assert.IsTrue(dashita1.Equals(dashita2));
     }
 
     [Test]
     public void EqualsWithAtamaOrderChange()
     {
-        CardList atamaJacksMix = new()
+        Atama atamaJacksMix = new()
         {
             _cardJaH2, _cardJaS, _cardJaH1
         };
 
         Dashita dashita1 = new Dashita(
-            new List<CardList> { _run07Dto10D, _run02Cto05C },
+            new List<Run> { _run02Cto05C, _run07Dto10D },
             _atamaJacks
         );
 
         Dashita dashita2 = new Dashita(
-            new List<CardList> { _run02Cto05C, _run07Dto10D },
+            new List<Run> { _run02Cto05C, _run07Dto10D },
             atamaJacksMix
         );
 
-        Assert.AreEqual(dashita1, dashita2);
+        Assert.IsTrue(dashita1.Equals(dashita2));
     }
 }

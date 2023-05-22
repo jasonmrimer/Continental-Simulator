@@ -77,13 +77,10 @@ public class Card
 
     public override bool Equals(object obj)
     {
-        if (obj == null)
+        if (obj is not Card objCard)
         {
             return false;
         }
-
-        Card objCard = obj as Card;
-        
         return objCard.Rank == Rank && objCard.Suit == Suit;
     }
 }

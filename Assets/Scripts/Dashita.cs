@@ -22,6 +22,14 @@ public class Dashita
         Runs = runs;
         Atama = atama;
     }
+    
+    public Dashita(List<Run> runs, Atama atama)
+    {
+        Runsv2 = runs;
+        Atamav2 = atama;
+    }
+    
+    
 
 
     public List<Card> RunOne => _runOne;
@@ -29,10 +37,14 @@ public class Dashita
     public List<Card> RunTwo => _runTwo;
 
     public List<Card> Atama { get; }
+    
+    public List<Card> Atamav2 { get; }
 
     public List<CardList> Runs { get; }
+    
+    public List<Run> Runsv2 { get; }
 
-    public override bool Equals(Object obj)
+    public override bool Equals(object obj)
     {
         if (obj == null)
         {
@@ -41,35 +53,27 @@ public class Dashita
 
         Dashita other = obj as Dashita;
 
-        List<CardList> orderedOtherRuns = other.Runs.OrderBy(run => run[0].Rank).ToList();
-        List<CardList> orderedBaseRuns = this.Runs.OrderBy(run => run[0].Rank).ToList();
+        List<Run> orderedOtherRuns = other.Runsv2.OrderBy(run => run[0].Rank).ToList();
+        List<Run> orderedBaseRuns = this.Runsv2.OrderBy(run => run[0].Rank).ToList();
 
 
         // Check if the number of runs and atama is the same
-        if (Runs.Count != other.Runs.Count || Atama.Count != other.Atama.Count)
+        if (Runsv2.Count != other.Runsv2.Count || Atamav2.Count != other.Atamav2.Count)
             return false;
 
         // Check if the runs have the same rank and suits
-        for (int i = 0; i < Runs.Count; i++)
+        for (int i = 0; i < Runsv2.Count; i++)
         {
             if (!orderedBaseRuns[i].Equals(orderedOtherRuns[i]))
                 return false;
         }
 
-        if (AtamasNotEqual(other))
+        if (!other.Atamav2.Equals(Atamav2))
         {
             return false;
         }
 
         return true;
-    }
-
-    private bool AtamasNotEqual(Dashita other)
-    {
-        bool countIsDifferent = other.Atama.Count != Atama.Count;
-        bool cardsAreDifferent =
-            !(other.Atama.OrderBy(card => card.Suit).SequenceEqual(Atama.OrderBy(card => card.Suit)));
-        return countIsDifferent || cardsAreDifferent;
     }
 
     public override string ToString()
