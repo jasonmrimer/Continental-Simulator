@@ -42,7 +42,7 @@ public abstract class RunFinder
         return runOptions;
     }
 
-    private static bool IsRun(CardList suitedAndSortedCards)
+    public static bool IsRun(CardList suitedAndSortedCards)
     {
         if (suitedAndSortedCards.Count < 4)
         {

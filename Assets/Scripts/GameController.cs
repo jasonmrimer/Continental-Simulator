@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class GameController
 {
-    private Dealer _dealer;
     private List<Player> _players;
     private bool _gameIsOver;
     private int _turnCount;
@@ -23,7 +22,7 @@ public class GameController
         {
             Player currentPlayer = _players[_currentPlayerIndex];
 
-            GameWriter.PrintDeckAndPileStatus(_dealer, _turnCount, _players);
+            GameWriter.PrintDeckAndPileStatus(Dealer, _turnCount, _players);
             GameWriter.PrintTurnStart(currentPlayer, _turnCount);
 
             if (OutOfCards())
@@ -32,7 +31,7 @@ public class GameController
                 break;
             }
 
-            _dealer.RecyclePileIntoDeck();
+            Dealer.RecyclePileIntoDeck();
 
             Player playerWhoDrew = null;
             PlayersVieForTopDiscard(_currentPlayerIndex, currentPlayer, ref playerWhoDrew);
@@ -46,7 +45,8 @@ public class GameController
     private void PlayersVieForTopDiscard(
         int currentPlayerIndex,
         Player currentPlayer,
-        ref Player playerWhoDrew)
+        ref Player playerWhoDrew
+    )
     {
         int playerCount = _players.Count;
 
@@ -60,17 +60,17 @@ public class GameController
             bool playerDecision = Player.DecideWhetherToTakePenalty();
             if (playerDecision)
             {
-                _dealer.RecyclePileIntoDeck();
+                Dealer.RecyclePileIntoDeck();
 
                 playerWhoDrew = vyingPlayer;
-                Card drawnCard = _dealer.GiveCardFrom(DrawSource.Pile);
+                Card drawnCard = Dealer.GiveCardFrom(DrawSource.Pile);
                 Card penalty = null;
                 vyingPlayer.AddToHand(drawnCard);
 
                 if (vyingPlayer != currentPlayer)
                 {
                     // take penalty
-                    penalty = _dealer.GiveCardFrom(DrawSource.Deck);
+                    penalty = Dealer.GiveCardFrom(DrawSource.Deck);
                     vyingPlayer.AddToHand(penalty);
                 }
 
@@ -78,13 +78,14 @@ public class GameController
 
                 return;
             }
+
             Console.WriteLine($"{vyingPlayer.Name} passes on pile");
         }
     }
 
     private bool OutOfCards()
     {
-        return _dealer.DeckCardCount() == 0 && _dealer.PileCardCount() == 0;
+        return (Dealer.DeckCardCount()+ Dealer.PileCardCount() == 1);
     }
 
     private bool ShouldContinuePlaying()
@@ -107,11 +108,11 @@ public class GameController
     private void PlayerDraws(Player player, Player playerWhoDrew)
     {
         // GameWriter.PrintPlayerDrawsTopCard(playerWhoDrew);
-        
+
         if (playerWhoDrew != player)
         {
-            _dealer.RecyclePileIntoDeck();
-            Card drawnCard = _dealer.GiveCardFrom(DrawSource.Deck);
+            Dealer.RecyclePileIntoDeck();
+            Card drawnCard = Dealer.GiveCardFrom(DrawSource.Deck);
             player.AddToHand(drawnCard);
             GameWriter.PrintDrawAction(player, DrawSource.Deck, drawnCard);
         }
@@ -120,21 +121,21 @@ public class GameController
     private void PlayerDiscards(Player player)
     {
         Card discard = player.DiscardFromHand();
-        _dealer.ReceiveDiscardFromPlayer(discard);
+        Dealer.ReceiveDiscardFromPlayer(discard);
     }
 
     private void SetupAndDeal()
     {
         // Setup
         _players = PlayerStub.CreatePlayers();
-        _dealer = new Dealer(new Deck(), _players);
+        Dealer = new Dealer(new Deck(), _players);
 
         _turnCount = 1;
         _currentPlayerIndex = 0;
         _gameIsOver = false;
 
         // Deal
-        _dealer.Deal();
+        Dealer.Deal();
     }
 
     public bool IsFinished()
@@ -146,4 +147,6 @@ public class GameController
     {
         return _turnCount;
     }
+
+    public Dealer Dealer { get; private set; }
 }

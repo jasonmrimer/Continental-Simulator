@@ -15,7 +15,7 @@ public class Dashita
         Atama = atama;
     }
 
-    public List<Card> Atama { get; }
+    public Atama Atama { get; }
 
     public List<Run> Runs { get; }
 

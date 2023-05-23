@@ -122,14 +122,14 @@ public class DealerTest
             "Did not place new discard on top"
         );
     }
-
-    private static void AllCardsAndUnique(Player player)
+    
+    [Test]
+    public void ReceivesDashitaFromPlayerAndAddsToPlayZone()
     {
-        Assert.AreEqual(11, player.CardCount());
-        foreach (Card card in player.Hand())
-        {
-            
-        }
-        CollectionAssert.AllItemsAreUnique(player.Hand());
+        _dealer.ReceiveDashita(TestHelper.Dashita02CTo05CAnd07DTo10DAndJacks);
+        
+        Assert.Contains(TestHelper.Run02CTo05C, _dealer.PlayZone);
+        Assert.Contains(TestHelper.Run07DTo10D, _dealer.PlayZone);
+        Assert.Contains(TestHelper.AtamaJacksHHS, _dealer.PlayZone);
     }
 }
