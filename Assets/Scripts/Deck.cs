@@ -4,11 +4,11 @@ using System.Linq;
 
 public class Deck
 {
-    private List<Card> _cards;
+    private CardList _cards;
 
     public Deck()
     {
-        _cards = new List<Card>();
+        _cards = new CardList();
         const int numberOfDecks = 2;
         
         for (int i = 0; i < numberOfDecks; i++)
