@@ -1,74 +1,53 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public abstract class RunFinder
 {
-    public static List<Run> FindPossibleRuns(List<Card> cards)
+    public static List<Run> FindPossibleRuns(CardList cards)
     {
         List<Run> runOptions = new();
-        IEnumerable<IGrouping<Suit, Card>> suitGroups = cards.GroupBy(card => card.Suit);
+        IEnumerable<IGrouping<Suit,Card>> suitGroups = cards.GroupBy(card => card.Suit);
 
         foreach (IGrouping<Suit, Card> suitGroup in suitGroups)
         {
+            HashSet<Card> singleCopySuitedCards = new(suitGroup);
             
-            List<Card> sortedCards = suitGroup.OrderBy(card => card.Rank).ToList();
-            Card aceInGroup = sortedCards.Find(card => card.Rank == Rank.Ace);
-           
-            // add Ace to end for run check
-            if (aceInGroup != null)
+            foreach (Card runStartCard in singleCopySuitedCards)
             {
-                sortedCards.Add(aceInGroup);
-            }
-            
-            for (int startIndex = 0; startIndex < sortedCards.Count; startIndex++)
-            {
-                for (int endIndex = startIndex + 3; endIndex < sortedCards.Count; endIndex++)
+                Run run = new() { runStartCard };
+
+                for (int nextRankInt = (int)(runStartCard.Rank + 1); nextRankInt <= 14; nextRankInt++)
                 {
-                    Run run = new();
-        
-                    for (int i = startIndex; i <= endIndex; i++)
+                    Rank nextRank = nextRankInt == 14 ? Rank.Ace : (Rank)nextRankInt;
+                    Card nextCardInRun = new Card(nextRank, runStartCard.Suit);
+
+                    if (singleCopySuitedCards.TryGetValue(nextCardInRun, out nextCardInRun))
                     {
-                        run.Add(sortedCards[i]);
+                        run.Add(nextCardInRun);
                     }
-        
+                    else
+                    {
+                        break;
+                    }
+
                     if (IsRun(run))
                     {
-                        runOptions.Add(run);
+                        runOptions.Add(new Run(run));
                     }
                 }
             }
-            // for (int i = 1; i < sortedCards.Count; i++)
-            // {
-            //     Card previousCard = run[i - 1];
-            //     Card currentCard = sortedCards[i];
-            //     
-            //     if (IsConsecutiveRank(previousCard, currentCard))
-            //     {
-            //         run.Add(currentCard);
-            //     }
-            //     else
-            //     {
-            //         run.Clear();
-            //         run.Add(currentCard);
-            //     }
-            //
-            //     if (run.Count >= 4)
-            //     {
-            //         runOptions.Add(run);
-            //     }
-            // }
         }
-
-
+        
         return runOptions;
     }
 
-    private static bool IsRun(List<Card> suitedAndSortedCards)
+    private static bool IsRun(CardList suitedAndSortedCards)
     {
-        // Check if the cards form a run (straight flush)
-        
-        // Sort the cards by rank
-        // potentialRunOfSuitedCards.Sort();
+        if (suitedAndSortedCards.Count < 4)
+        {
+            return false;
+        }
 
         // Check if the cards have consecutive ranks, accounting for Aces as both 1 and 14
         for (int i = 1; i < suitedAndSortedCards.Count; i++)
@@ -82,7 +61,6 @@ public abstract class RunFinder
                 {
                     return false;
                 }
-
             }
             else if (previousRank == Rank.King)
             {
@@ -97,7 +75,7 @@ public abstract class RunFinder
                 return false;
             }
         }
-        
+
         return true;
     }
 }

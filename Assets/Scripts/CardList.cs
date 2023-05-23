@@ -16,6 +16,26 @@ public class CardList: List<Card>
     {
         AddRange(cards);
     }
+    
+    public void RemoveRange(List<Card> cards)
+    {
+        foreach (Card card in cards)
+        {
+            RemoveFirstMatch(card);
+        }
+    }
+
+    private void RemoveFirstMatch(Card card)
+    {
+        for (int i = 0; i < this.Count; i++)
+        {
+            if (this[i].Suit == card.Suit && this[i].Rank == card.Rank)
+            {
+                this.RemoveAt(i);
+                break;
+            }
+        }
+    }
 
     public override string ToString()
     {

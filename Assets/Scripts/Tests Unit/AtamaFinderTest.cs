@@ -103,14 +103,6 @@ public class AtamaFinderTest
 
         List<Atama> atamaFound = AtamaFinder.FindAtama(hand);
 
-        foreach (List<Card> atama in atamaFound)
-        {
-            Console.WriteLine(atama);
-            foreach (Card card in atama)
-            {
-                Console.Write($"{card}, ");
-            }
-        }
         Assert.AreEqual(1, atamaFound.Count);
         Assert.Contains(_expectedAtama02s, atamaFound);
     }

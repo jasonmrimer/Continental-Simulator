@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using System.Linq;
 
-public class Run : List<Card>
+public class Run : CardList
 {
     public Run(Run run)
     {

@@ -1,4 +1,4 @@
-using Game;
+using System;
 
 public enum Rank
 {
@@ -67,12 +67,12 @@ public class Card
 
     public string Printable()
     {
-        return $"{this.ValueText()}{this.SuitSymbol()}";
+        return $"{ValueText()}{this.SuitSymbol()}";
     }
 
     public override string ToString()
     {
-        return $"{this.Printable()}";
+        return $"{Printable()}";
     }
 
     public override bool Equals(object obj)
@@ -82,5 +82,10 @@ public class Card
             return false;
         }
         return objCard.Rank == Rank && objCard.Suit == Suit;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Rank, Suit);
     }
 }

@@ -6,7 +6,9 @@ public class CardListTest
     private Card _card02C;
     private Card _card03C;
     private Card _card04C;
+
     private Card _card05C;
+
     // private Card _card07D;
     // private Card _card08D;
     // private Card _card09D;
@@ -25,5 +27,22 @@ public class CardListTest
         _card03C = new Card(Rank.Three, Suit.Clubs);
         _card04C = new Card(Rank.Four, Suit.Clubs);
         _card05C = new Card(Rank.Five, Suit.Clubs);
+    }
+
+    [Test]
+    public void RemovesOneCopyOfCard()
+    {
+        CardList run2To5 = new() { _card02C, _card03C, _card04C, _card05C, };
+
+        CardList hand = new(run2To5);
+        
+        hand.AddRange(new[] { _card02C, _card03C, _card04C, _card05C });
+
+        Assert.AreEqual(8, hand.Count);
+
+        hand.RemoveRange(run2To5);
+
+        Assert.AreEqual(4, hand.Count);
+        Assert.AreEqual(run2To5, hand);
     }
 }

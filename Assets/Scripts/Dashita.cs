@@ -1,9 +1,14 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public class Dashita
 {
+    public Dashita(Run run01, Run run02, Atama atama)
+    {
+        Runs = new List<Run>() { run01, run02 };
+        Atama = atama;
+    }
+        
     public Dashita(List<Run> runs, Atama atama)
     {
         Runs = runs;
@@ -16,12 +21,11 @@ public class Dashita
 
     public override bool Equals(object obj)
     {
-        Console.WriteLine("================Dashita Equals");
         if (obj is not Dashita other)
         {
             return false;
         }
-        
+
         List<Run> orderedOtherRuns = other.Runs.OrderBy(run => run[0].Suit).ToList();
         List<Run> orderedBaseRuns = this.Runs.OrderBy(run => run[0].Suit).ToList();
 
@@ -46,17 +50,7 @@ public class Dashita
 
         return true;
     }
-
-    protected bool Equals(Dashita other)
-    {
-        return Equals(Atama, other.Atama) && Equals(Runs, other.Runs);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Atama, Runs);
-    }
-
+    
     public override string ToString()
     {
         string message = "";

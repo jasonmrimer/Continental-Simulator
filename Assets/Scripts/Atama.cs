@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 
-public class Atama : List<Card>
+public class Atama : CardList
 {
     public Atama(IOrderedEnumerable<Card> orderBy)
     {

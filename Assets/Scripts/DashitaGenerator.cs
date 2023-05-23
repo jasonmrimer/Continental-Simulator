@@ -1,132 +1,47 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Game;
-using NUnit.Framework;
 
 public class DashitaGenerator
 {
-    public static Dashita CheckAndCreateDashita(Player player)
-    {
-        List<Card> handCopy = player.Hand();
-
-        List<Card> run1 = CheckAndCollectRun(handCopy);
-        List<Card> run2 = CheckAndCollectRun(handCopy);
-        List<Card> atama = CheckAndCollectAtama(handCopy);
-
-        return new Dashita(
-            new List<Run>(){(Run)run1, (Run)run2},
-            (Atama)atama
-        );
-    }
-
-    private static Atama CheckAndCollectAtama(List<Card> hand)
-    {
-        List<Card> atama = new List<Card>();
-        List<Card> sortedCards = hand.OrderBy(card => card.Rank).ToList();
-
-        Card previousCard = null;
-        Card currentCard = null;
-        atama.Add(sortedCards[0]);
-
-        for (int i = 1; i < sortedCards.Count; i++)
-        {
-            previousCard = atama[i - 1];
-            currentCard = sortedCards[i];
-
-            if (IsEqualRank(previousCard, currentCard))
-            {
-                atama.Add(currentCard);
-            }
-            else
-            {
-                atama.Clear();
-                atama.Add(currentCard);
-            }
-
-            if (atama.Count == 3)
-            {
-                hand.RemoveAll(card => atama.Contains(card));
-                return (Atama)atama;
-            }
-        }
-
-        return new Atama();
-    }
-
-    private static bool IsEqualRank(Card card1, Card card2)
-    {
-        return card1.Rank == card2.Rank;
-    }
-
-    private static Run CheckAndCollectRun(List<Card> hand)
-    {
-        List<Card> run = new List<Card>();
-        IEnumerable<IGrouping<Suit, Card>> suitGroups = hand.GroupBy(card => card.Suit);
-
-        foreach (IGrouping<Suit, Card> suitGroup in suitGroups)
-        {
-            run.Clear();
-
-            List<Card> sortedCards = suitGroup.OrderBy(card => card.Rank).ToList();
-
-            if (sortedCards.Count < 4)
-            {
-                break;
-            }
-
-            Card previousCard = null;
-            Card currentCard = null;
-            run.Add(sortedCards[0]);
-
-            for (int i = 1; i < sortedCards.Count; i++)
-            {
-                previousCard = run[i - 1];
-                currentCard = sortedCards[i];
-
-                if (IsConsecutiveRank(previousCard, currentCard))
-                {
-                    run.Add(currentCard);
-                }
-                else
-                {
-                    run.Clear();
-                    run.Add(currentCard);
-                }
-
-                if (run.Count == 4)
-                {
-                    hand.RemoveAll(card => run.Contains(card));
-                    return (Run)run;
-                }
-            }
-        }
-
-        return new Run();
-    }
-
-    private static bool IsConsecutiveRank(Card card1, Card card2)
-    {
-        return card1.Rank + 1 == card2.Rank;
-    }
-
-    public static List<Dashita> DashitaOptions()
-    {
-        return new List<Dashita>();
-    }
-
-    public static List<Dashita> GenerateOptions(List<Card> hand)
+    public static HashSet<Dashita> GenerateOptions(CardList hand)
     {
         List<Run> runOptions = RunFinder.FindPossibleRuns(hand);
+        HashSet<Dashita> dashitaOptions = new(new DashitaEqualityComparer());
 
-        List<Atama> atamaOptions = AtamaFinder.FindAtama(hand);
-
-        return new List<Dashita>
+        // Iterate through each possible combination Runs
+        foreach (Run initialRun in runOptions)
         {
-            new(
-                runOptions,
-                atamaOptions[0]
-            )
-        };
+            CardList remainingCardsAfterInitial = new(hand);
+            RemoveCardsFromList(remainingCardsAfterInitial, initialRun);
+
+            List<Run> additionalRuns = RunFinder.FindPossibleRuns(remainingCardsAfterInitial);
+
+            // Iterate through each possible combination of 2 Runs
+            foreach (Run additionalRun in additionalRuns)
+            {
+                CardList remainingCardsAfterAdditional = new(remainingCardsAfterInitial);
+                RemoveCardsFromList(remainingCardsAfterAdditional, additionalRun);
+
+                List<Atama> atamasAvailable = AtamaFinder.FindAtama(remainingCardsAfterAdditional);
+
+                foreach (Atama atama in atamasAvailable)
+                {
+                    dashitaOptions.Add(new Dashita(
+                        new List<Run>() { initialRun, additionalRun },
+                        atama
+                    ));
+                }
+            }
+        }
+
+        return dashitaOptions;
+    }
+
+    private static void RemoveCardsFromList(List<Card> cards, IEnumerable<Card> cardsToRemove)
+    {
+        foreach (Card card in cardsToRemove)
+        {
+            cards.Remove(card);
+        }
     }
 }

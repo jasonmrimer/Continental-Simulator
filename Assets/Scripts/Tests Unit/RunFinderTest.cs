@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 
@@ -139,9 +140,24 @@ public class RunFinderTest
     }
 
     [Test]
+    public void FindsSimpleRun()
+    {
+        CardList cards = new CardList()
+        {
+            _card02C, _card03C, _card04C, _card05C, 
+        };
+
+
+        List<Run> actualRuns = RunFinder.FindPossibleRuns(cards);
+
+        Assert.AreEqual(1, actualRuns.Count);
+        Assert.Contains(_expectedRun2Cto5C, actualRuns);
+    }
+    
+    [Test]
     public void Finds3AvailableRuns()
     {
-        List<Card> cards = new List<Card>()
+        CardList cards = new CardList()
         {
             _card02C, _card03C, _card04C, _card05C, _card06C
         };
@@ -158,7 +174,7 @@ public class RunFinderTest
     [Test]
     public void Finds3AvailableRunsWithDistractors()
     {
-        List<Card> cards = new()
+        CardList cards = new()
         {
             _card02C, _card03C, _card04C, _card05C, _card06C,
             new Card(Rank.Two, Suit.Hearts), new Card(Rank.Queen, Suit.Diamonds),
@@ -176,10 +192,12 @@ public class RunFinderTest
     [Test]
     public void Finds4AvailableRunsWithGap()
     {
-        List<Card> cards = new()
+        Card card02H = new Card(Rank.Two, Suit.Hearts);
+        Card cardQuD = new Card(Rank.Queen, Suit.Diamonds);
+        CardList cards = new()
         {
             _card02C, _card03C, _card04C, _card05C, _card06C,
-            new Card(Rank.Two, Suit.Hearts), new Card(Rank.Queen, Suit.Diamonds),
+            card02H, cardQuD,
             _card08C, _card09C, _card10C, _cardJaC,
         };
 
@@ -196,7 +214,7 @@ public class RunFinderTest
     [Test]
     public void Finds6AvailableRunsWithGapAndExtension()
     {
-        List<Card> cards = new()
+        CardList cards = new()
         {
             _card02C, _card03C, _card04C, _card05C, _card06C,
             new Card(Rank.Two, Suit.Hearts), new Card(Rank.Queen, Suit.Diamonds),
@@ -218,7 +236,7 @@ public class RunFinderTest
     [Test]
     public void Finds6AvailableRunsWithMulitpleSuits()
     {
-        List<Card> cards = new()
+        CardList cards = new()
         {
             _card02C, _card03C, _card04C, _card05C, _card06C,
             new Card(Rank.Two, Suit.Diamonds), new Card(Rank.Queen, Suit.Diamonds),
@@ -248,7 +266,7 @@ public class RunFinderTest
     [Test]
     public void FindsAvailableRunsWithAcesOnEachSide()
     {
-        List<Card> cards = new()
+        CardList cards = new()
         {
             _cardAcC, _card02C, _card03C, _card04C, _card05C,
             _cardJaC, _cardQuC,_cardKiC,
@@ -263,5 +281,21 @@ public class RunFinderTest
         Assert.Contains(_expectedRunAcCto05C, actualRuns);
         Assert.Contains(_expectedRun2Cto5C, actualRuns);
         Assert.Contains(_expectedRunJaCtoAcC, actualRuns);
+    }
+    
+    [Test]
+    public void MultipleInSuite()
+    {
+        CardList cards = new()
+        {
+            _card02C, _card03C, _card04C, _card05C,
+            _card02C, _card03C, _card04C, _card05C,
+        };
+
+
+        List<Run> actualRuns = RunFinder.FindPossibleRuns(cards);
+
+        Assert.AreEqual(1, actualRuns.Count);
+        Assert.Contains(_expectedRun2Cto5C, actualRuns);
     }
 }
