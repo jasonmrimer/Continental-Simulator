@@ -1,17 +1,20 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class Player
 {
     private readonly CardList _cards;
+    public string Name { get; }
+    public bool HasPlayedDashita { get; private set; }
 
     public Player(string name)
     {
         _cards = new CardList();
         Name = name;
+        HasPlayedDashita = false;
     }
 
-    public string Name { get; set; }
 
     public int CardCount()
     {
@@ -78,5 +81,21 @@ public class Player
     public static bool DecideWhetherToTakePenalty()
     {
         return ChooseDrawSource(true) == DrawSource.Pile;
+    }
+
+    public Dashita PlayDecision()
+    {
+        Random random = new Random();
+        double randomValue = random.NextDouble();
+
+        if (randomValue < 0.50)
+        {
+            HasPlayedDashita = true;
+            HashSet<Dashita> dashitaOptions = DashitaGenerator.GenerateOptions(Hand());
+            Dashita chosenDashita = new List<Dashita>(dashitaOptions)[0];
+            return chosenDashita;
+        }
+
+        return null;
     }
 }

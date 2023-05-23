@@ -38,30 +38,9 @@ public class DashitaTest
         _cardJaH1 = new Card(Rank.Jack, Suit.Hearts);
         _cardJaH2 = new Card(Rank.Jack, Suit.Hearts);
         _cardJaS = new Card(Rank.Jack, Suit.Spades);
-
-        new CardList
-        {
-            _card02C, _card03C, _card04C, _card05C
-        };
-
+        
         _run02Cto05C = new Run { _card02C, _card03C, _card04C, _card05C };
         _run07Dto10D = new Run { _card07D, _card08D, _card09D, _card10D };
-
-        new CardList
-        {
-            _card02C, _card03C, _card04C, _card05C
-        };
-
-        new CardList()
-        {
-            _card07D, _card08D, _card09D, _card10D
-        };
-
-
-        new CardList()
-        {
-            _cardJaH1, _cardJaH2, _cardJaS,
-        };
         _atamaJacks = new Atama() { _cardJaH1, _cardJaH2, _cardJaS, };
     }
 
