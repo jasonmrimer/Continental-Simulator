@@ -128,14 +128,4 @@ public class DealerTest
     {
         
     }
-
-    private static void AllCardsAndUnique(Player player)
-    {
-        Assert.AreEqual(11, player.CardCount());
-        foreach (Card card in player.Hand())
-        {
-            
-        }
-        CollectionAssert.AllItemsAreUnique(player.Hand());
-    }
 }

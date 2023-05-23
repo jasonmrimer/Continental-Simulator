@@ -13,7 +13,8 @@ public class DashitaTest
         );
 
         Dashita dashita2 = new Dashita(
-            new List<Run> { TestHelper.Run02CTo05C, TestHelper.Run07DTo10D },
+            TestHelper.Run02CTo05C, 
+            TestHelper.Run07DTo10D,
             TestHelper.AtamaJacksHHS
         );
         Assert.AreEqual(dashita1, dashita2);

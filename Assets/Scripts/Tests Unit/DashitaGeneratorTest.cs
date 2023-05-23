@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using NUnit.Framework;
@@ -7,24 +6,10 @@ using NUnit.Framework;
 public class DashitaGeneratorTest
 {
     private Player _player;
-    private Card _card02C;
-    private Card _card03C;
-    private Card _card04C;
-    private Card _card05C;
-    private Card _card07D;
-    private Card _card08D;
-    private Card _card09D;
-    private Card _card10D;
     private Card _cardJaD;
-    private Card _cardJaH1;
-    private Card _cardJaH2;
-    private Card _cardJaS;
     private Card _cardKiC;
     private Card _cardKiD;
     private Card _cardKiS;
-    private Run _run02Cto05C;
-    private Run _run07Dto10D;
-    private Atama _atamaJacksHHS;
     private Atama _atamaKings;
     private Run _run07DtoJaD;
     private Run _run08DtoJaD;
@@ -35,35 +20,33 @@ public class DashitaGeneratorTest
     [SetUp]
     public void SetUp()
     {
-        _card02C = new Card(Rank.Two, Suit.Clubs);
-        _card03C = new Card(Rank.Three, Suit.Clubs);
-        _card04C = new Card(Rank.Four, Suit.Clubs);
-        _card05C = new Card(Rank.Five, Suit.Clubs);
-
-        _card07D = new Card(Rank.Seven, Suit.Diamonds);
-        _card08D = new Card(Rank.Eight, Suit.Diamonds);
-        _card09D = new Card(Rank.Nine, Suit.Diamonds);
-        _card10D = new Card(Rank.Ten, Suit.Diamonds);
-
         _cardJaD = new Card(Rank.Jack, Suit.Diamonds);
-        _cardJaH1 = new Card(Rank.Jack, Suit.Hearts);
-        _cardJaH2 = new Card(Rank.Jack, Suit.Hearts);
-        _cardJaS = new Card(Rank.Jack, Suit.Spades);
 
         _cardKiC = new Card(Rank.King, Suit.Clubs);
         _cardKiD = new Card(Rank.King, Suit.Diamonds);
         _cardKiS = new Card(Rank.King, Suit.Spades);
 
-        _run02Cto05C = new Run { _card02C, _card03C, _card04C, _card05C };
 
-        _run07Dto10D = new Run() { _card07D, _card08D, _card09D, _card10D };
-        _run07DtoJaD = new Run() { _card07D, _card08D, _card09D, _card10D, _cardJaD };
-        _run08DtoJaD = new Run() { _card08D, _card09D, _card10D, _cardJaD };
+        _run07DtoJaD = new Run(TestHelper.Run07DTo10D) { _cardJaD };
+        _run08DtoJaD = new Run
+        {
+            TestHelper.Card08D, TestHelper.Card09D, TestHelper.Card10D, _cardJaD
+        };
 
-        _atamaJacksDHH = new Atama() { _cardJaD, _cardJaH1, _cardJaH2, };
-        _atamaJacksDHS = new Atama() { _cardJaD, _cardJaH2, _cardJaS, };
-        _atamaJacksHHS = new Atama() { _cardJaH1, _cardJaH2, _cardJaS, };
-        _atamaJacksDHHS = new Atama() { _cardJaD, _cardJaH1, _cardJaH2, _cardJaS, };
+        _atamaJacksDHH = new Atama
+        {
+            _cardJaD, TestHelper.CardJaH1, TestHelper.CardJaH2,
+        };
+
+        _atamaJacksDHS = new Atama
+        {
+            _cardJaD, TestHelper.CardJaH2, TestHelper.CardJaS,
+        };
+
+        _atamaJacksDHHS = new Atama
+        {
+            _cardJaD, TestHelper.CardJaH1, TestHelper.CardJaH2, TestHelper.CardJaS,
+        };
 
         _atamaKings = new Atama() { _cardKiC, _cardKiD, _cardKiS };
     }
@@ -71,16 +54,12 @@ public class DashitaGeneratorTest
     [Test]
     public void GeneratesSimplestHand()
     {
-        CardList hand = new()
-        {
-            _card02C, _card03C, _card04C, _card05C,
-            _card07D, _card08D, _card09D, _card10D,
-            _cardJaH1, _cardJaH2, _cardJaS,
-        };
+        CardList hand = new(TestHelper.HandForDashita2CTo5CAnd7DTo10DAndJacks);
 
         Dashita expectedDashita = new Dashita(
-            new List<Run> { _run02Cto05C, _run07Dto10D },
-            _atamaJacksHHS
+            TestHelper.Run02CTo05C,
+            TestHelper.Run07DTo10D,
+            TestHelper.AtamaJacksHHS
         );
 
 
@@ -96,35 +75,34 @@ public class DashitaGeneratorTest
     {
         Card card06C = new Card(Rank.Six, Suit.Clubs);
 
-        CardList hand = new()
+        CardList hand = new(TestHelper.HandForDashita2CTo5CAnd7DTo10DAndJacks)
         {
-            _card02C, _card03C, _card04C, _card05C, card06C,
-            _card07D, _card08D, _card09D, _card10D,
-            _cardJaH1, _cardJaH2, _cardJaS,
+            card06C,
         };
 
         Run run3Cto6C = new Run()
         {
-            _card03C, _card04C, _card05C, card06C
+            TestHelper.Card03C, TestHelper.Card04C, TestHelper.Card05C, card06C
         };
 
-        Run run2Cto6C = new Run()
+        Run run2Cto6C = new Run(TestHelper.Run02CTo05C)
         {
-            _card02C, _card03C, _card04C, _card05C, card06C
+            card06C
         };
 
         Dashita dashitaWith2Cto5C = new Dashita(
-            new List<Run>() { _run02Cto05C, _run07Dto10D },
-            _atamaJacksHHS
+            TestHelper.Run02CTo05C,
+            TestHelper.Run07DTo10D,
+            TestHelper.AtamaJacksHHS
         );
         Dashita dashitaWith3Cto6C = new Dashita(
-            new List<Run>() { run3Cto6C, _run07Dto10D },
-            _atamaJacksHHS
+            new List<Run>() { run3Cto6C, TestHelper.Run07DTo10D },
+            TestHelper.AtamaJacksHHS
         );
 
         Dashita dashitaWith2Cto6C = new Dashita(
-            new List<Run>() { run2Cto6C, _run07Dto10D },
-            _atamaJacksHHS
+            new List<Run>() { run2Cto6C, TestHelper.Run07DTo10D },
+            TestHelper.AtamaJacksHHS
         );
 
         HashSet<Dashita> dashitaOptions = DashitaGenerator.GenerateOptions(hand);
@@ -144,16 +122,21 @@ public class DashitaGeneratorTest
     [Test]
     public void TwoRunsAndTwoAtamaChoices()
     {
-        CardList hand = new()
+        CardList hand = new(TestHelper.HandForDashita2CTo5CAnd7DTo10DAndJacks)
         {
-            _card02C, _card03C, _card04C, _card05C,
-            _card07D, _card08D, _card09D, _card10D,
-            _cardJaH1, _cardJaH2, _cardJaS,
             _cardKiC, _cardKiD, _cardKiS
         };
 
-        Dashita expectedDashitaWithJacks = new Dashita(_run02Cto05C, _run07Dto10D, _atamaJacksHHS);
-        Dashita expectedDashitaWithKings = new Dashita(_run02Cto05C, _run07Dto10D, _atamaKings);
+        Dashita expectedDashitaWithJacks = new Dashita(
+            TestHelper.Run02CTo05C,
+            TestHelper.Run07DTo10D,
+            TestHelper.AtamaJacksHHS
+        );
+        Dashita expectedDashitaWithKings = new Dashita(
+            TestHelper.Run02CTo05C,
+            TestHelper.Run07DTo10D,
+            _atamaKings
+        );
 
         HashSet<Dashita> dashitaOptions = DashitaGenerator.GenerateOptions(hand);
 
@@ -174,18 +157,28 @@ public class DashitaGeneratorTest
     {
         CardList hand = new()
         {
-            _card02C, _card03C, _card04C, _card05C,
-            _card07D, _card08D, _card09D, _card10D,
+            TestHelper.Card02C, TestHelper.Card03C, TestHelper.Card04C, TestHelper.Card05C,
+            TestHelper.Card07D, TestHelper.Card08D, TestHelper.Card09D, TestHelper.Card10D,
             _cardJaD,
-            _cardJaH1, _cardJaH2, _cardJaS,
+            TestHelper.CardJaH1, TestHelper.CardJaH2, TestHelper.CardJaS,
         };
 
-        Dashita expectedDashita07Dto10DJacksDHH = new Dashita(_run02Cto05C, _run07Dto10D, _atamaJacksDHH);
-        Dashita expectedDashita07Dto10DJacksDHS = new Dashita(_run02Cto05C, _run07Dto10D, _atamaJacksDHS);
-        Dashita expectedDashita07Dto10DJacksHHS = new Dashita(_run02Cto05C, _run07Dto10D, _atamaJacksHHS);
-        Dashita expectedDashita07Dto10DJacksDHHS = new Dashita(_run02Cto05C, _run07Dto10D, _atamaJacksDHHS);
-        Dashita expectedDashita07DtoJaDJacksHHS = new Dashita(_run02Cto05C, _run07DtoJaD, _atamaJacksHHS);
-        Dashita expectedDashita08DtoJaDJacksHHS = new Dashita(_run02Cto05C, _run08DtoJaD, _atamaJacksHHS);
+        Dashita expectedDashita07Dto10DJacksDHH = new Dashita(
+            TestHelper.Run02CTo05C, TestHelper.Run07DTo10D, _atamaJacksDHH
+        );
+        Dashita expectedDashita07Dto10DJacksDHS = new Dashita(
+            TestHelper.Run02CTo05C, TestHelper.Run07DTo10D, _atamaJacksDHS
+        );
+        Dashita expectedDashita07Dto10DJacksHHS = new Dashita(
+            TestHelper.Run02CTo05C, TestHelper.Run07DTo10D, TestHelper.AtamaJacksHHS
+        );
+        Dashita expectedDashita07Dto10DJacksDHHS =
+            new Dashita(TestHelper.Run02CTo05C, TestHelper.Run07DTo10D, _atamaJacksDHHS
+            );
+        Dashita expectedDashita07DtoJaDJacksHHS =
+            new Dashita(TestHelper.Run02CTo05C, _run07DtoJaD, TestHelper.AtamaJacksHHS);
+        Dashita expectedDashita08DtoJaDJacksHHS =
+            new Dashita(TestHelper.Run02CTo05C, _run08DtoJaD, TestHelper.AtamaJacksHHS);
 
         HashSet<Dashita> dashitaOptions = DashitaGenerator.GenerateOptions(hand);
 
@@ -209,12 +202,14 @@ public class DashitaGeneratorTest
     {
         CardList hand = new()
         {
-            _card02C, _card03C, _card04C, _card05C,
-            _card02C, _card03C, _card04C, _card05C,
-            _cardJaH1, _cardJaH2, _cardJaS,
+            TestHelper.Card02C, TestHelper.Card03C, TestHelper.Card04C, TestHelper.Card05C,
+            TestHelper.Card02C, TestHelper.Card03C, TestHelper.Card04C, TestHelper.Card05C,
+            TestHelper.CardJaH1, TestHelper.CardJaH2, TestHelper.CardJaS,
         };
 
-        Dashita expectedDashita = new Dashita(_run02Cto05C, _run02Cto05C, _atamaJacksHHS);
+        Dashita expectedDashita = new Dashita(
+            TestHelper.Run02CTo05C, TestHelper.Run02CTo05C, TestHelper.AtamaJacksHHS
+        );
 
 
         HashSet<Dashita> dashitaOptions = DashitaGenerator.GenerateOptions(hand);
