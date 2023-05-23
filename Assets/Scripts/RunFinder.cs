@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class RunFinder
+public abstract class RunFinder
 {
-    public static List<CardList> FindPossibleRuns(List<Card> cards)
+    public static List<Run> FindPossibleRuns(List<Card> cards)
     {
-        List<CardList> runOptions = new();
+        List<Run> runOptions = new();
         IEnumerable<IGrouping<Suit, Card>> suitGroups = cards.GroupBy(card => card.Suit);
 
         foreach (IGrouping<Suit, Card> suitGroup in suitGroups)
@@ -24,7 +24,7 @@ public class RunFinder
             {
                 for (int endIndex = startIndex + 3; endIndex < sortedCards.Count; endIndex++)
                 {
-                    CardList run = new();
+                    Run run = new();
         
                     for (int i = startIndex; i <= endIndex; i++)
                     {
@@ -59,7 +59,6 @@ public class RunFinder
             // }
         }
 
-        
 
         return runOptions;
     }
@@ -101,10 +100,4 @@ public class RunFinder
         
         return true;
     }
-
-    private static bool IsConsecutiveRank(Card card1, Card card2)
-    {
-        return card1.Rank + 1 == card2.Rank;
-    }
-
 }

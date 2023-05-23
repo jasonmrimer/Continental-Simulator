@@ -4,76 +4,57 @@ using System.Linq;
 
 public class Dashita
 {
-    List<Card> _runOne;
-    List<Card> _runTwo;
-
-
-    public Dashita(List<Card> runOne, List<Card> runTwo, List<Card> atama)
-    {
-        _runOne = runOne;
-        _runTwo = runTwo;
-        Atama = atama;
-
-        // Runs = new List<Card> { runOne, runTwo };
-    }
-
-    public Dashita(List<CardList> runs, List<Card> atama)
+    public Dashita(List<Run> runs, Atama atama)
     {
         Runs = runs;
         Atama = atama;
     }
-    
-    public Dashita(List<Run> runs, Atama atama)
-    {
-        Runsv2 = runs;
-        Atamav2 = atama;
-    }
-    
-    
-
-
-    public List<Card> RunOne => _runOne;
-
-    public List<Card> RunTwo => _runTwo;
 
     public List<Card> Atama { get; }
-    
-    public List<Card> Atamav2 { get; }
 
-    public List<CardList> Runs { get; }
-    
-    public List<Run> Runsv2 { get; }
+    public List<Run> Runs { get; }
 
     public override bool Equals(object obj)
     {
-        if (obj == null)
+        Console.WriteLine("================Dashita Equals");
+        if (obj is not Dashita other)
         {
             return false;
         }
-
-        Dashita other = obj as Dashita;
-
-        List<Run> orderedOtherRuns = other.Runsv2.OrderBy(run => run[0].Rank).ToList();
-        List<Run> orderedBaseRuns = this.Runsv2.OrderBy(run => run[0].Rank).ToList();
+        
+        List<Run> orderedOtherRuns = other.Runs.OrderBy(run => run[0].Suit).ToList();
+        List<Run> orderedBaseRuns = this.Runs.OrderBy(run => run[0].Suit).ToList();
 
 
         // Check if the number of runs and atama is the same
-        if (Runsv2.Count != other.Runsv2.Count || Atamav2.Count != other.Atamav2.Count)
+        if (Runs.Count != other.Runs.Count || Atama.Count != other.Atama.Count)
             return false;
 
         // Check if the runs have the same rank and suits
-        for (int i = 0; i < Runsv2.Count; i++)
+        for (int i = 0; i < Runs.Count; i++)
         {
-            if (!orderedBaseRuns[i].Equals(orderedOtherRuns[i]))
+            Run baseRun = orderedBaseRuns[i];
+            Run otherRun = orderedOtherRuns[i];
+            if (!baseRun.Equals(otherRun))
                 return false;
         }
 
-        if (!other.Atamav2.Equals(Atamav2))
+        if (!other.Atama.Equals(Atama))
         {
             return false;
         }
 
         return true;
+    }
+
+    protected bool Equals(Dashita other)
+    {
+        return Equals(Atama, other.Atama) && Equals(Runs, other.Runs);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Atama, Runs);
     }
 
     public override string ToString()

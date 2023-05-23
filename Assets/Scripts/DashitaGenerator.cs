@@ -15,13 +15,12 @@ public class DashitaGenerator
         List<Card> atama = CheckAndCollectAtama(handCopy);
 
         return new Dashita(
-            run1,
-            run2,
-            atama
+            new List<Run>(){(Run)run1, (Run)run2},
+            (Atama)atama
         );
     }
 
-    private static List<Card> CheckAndCollectAtama(List<Card> hand)
+    private static Atama CheckAndCollectAtama(List<Card> hand)
     {
         List<Card> atama = new List<Card>();
         List<Card> sortedCards = hand.OrderBy(card => card.Rank).ToList();
@@ -48,11 +47,11 @@ public class DashitaGenerator
             if (atama.Count == 3)
             {
                 hand.RemoveAll(card => atama.Contains(card));
-                return atama;
+                return (Atama)atama;
             }
         }
 
-        return new List<Card>();
+        return new Atama();
     }
 
     private static bool IsEqualRank(Card card1, Card card2)
@@ -60,7 +59,7 @@ public class DashitaGenerator
         return card1.Rank == card2.Rank;
     }
 
-    private static List<Card> CheckAndCollectRun(List<Card> hand)
+    private static Run CheckAndCollectRun(List<Card> hand)
     {
         List<Card> run = new List<Card>();
         IEnumerable<IGrouping<Suit, Card>> suitGroups = hand.GroupBy(card => card.Suit);
@@ -98,12 +97,12 @@ public class DashitaGenerator
                 if (run.Count == 4)
                 {
                     hand.RemoveAll(card => run.Contains(card));
-                    return run;
+                    return (Run)run;
                 }
             }
         }
 
-        return new List<Card>();
+        return new Run();
     }
 
     private static bool IsConsecutiveRank(Card card1, Card card2)
@@ -118,8 +117,9 @@ public class DashitaGenerator
 
     public static List<Dashita> GenerateOptions(List<Card> hand)
     {
-        List<CardList> runOptions = RunFinder.FindPossibleRuns(hand);
-        List<CardList> atamaOptions = AtamaFinder.FindAtama(hand);
+        List<Run> runOptions = RunFinder.FindPossibleRuns(hand);
+
+        List<Atama> atamaOptions = AtamaFinder.FindAtama(hand);
 
         return new List<Dashita>
         {

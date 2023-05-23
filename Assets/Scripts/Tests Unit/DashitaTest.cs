@@ -77,6 +77,7 @@ public class DashitaTest
             new List<Run> { _run02Cto05C, _run07Dto10D },
             _atamaJacks
         );
+        Assert.AreEqual(dashita1, dashita2);
 
         Assert.IsTrue(dashita1.Equals(dashita2));
     }
@@ -97,6 +98,7 @@ public class DashitaTest
             _atamaJacks
         );
 
+        Assert.AreNotEqual(dashita1, dashita2);
 
         Assert.IsFalse(dashita1.Equals(dashita2));
     }
@@ -115,6 +117,8 @@ public class DashitaTest
             _atamaJacks
         );
 
+        Assert.AreEqual(dashita1, dashita2);
+        
         Assert.IsTrue(dashita1.Equals(dashita2));
     }
 
@@ -135,6 +139,7 @@ public class DashitaTest
             new List<Run> { _run02Cto05C, _run07Dto10D },
             atamaJacksMix
         );
+        Assert.AreEqual(dashita1, dashita2);
 
         Assert.IsTrue(dashita1.Equals(dashita2));
     }

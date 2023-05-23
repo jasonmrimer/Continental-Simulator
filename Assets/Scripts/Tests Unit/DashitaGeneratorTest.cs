@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Game;
 using NUnit.Framework;
 
 [TestFixture]
@@ -17,9 +16,9 @@ public class DashitaGeneratorTest
     private Card _cardJaH1;
     private Card _cardJaH2;
     private Card _cardJaS;
-    private CardList _run02Cto05C;
-    private CardList _run07Dto10D;
-    private CardList _atamaJacks;
+    private Run _run02Cto05C;
+    private Run _run07Dto10D;
+    private Atama _atamaJacks;
 
     [SetUp]
     public void SetUp()
@@ -53,15 +52,9 @@ public class DashitaGeneratorTest
         _player.AddToHand(_cardJaH2);
         _player.AddToHand(_cardJaS);
 
-        _run02Cto05C = new CardList
-        {
-            _card02C,
-            _card03C,
-            _card04C,
-            _card05C
-        };
+        _run02Cto05C = new Run { _card02C, _card03C, _card04C, _card05C };
 
-        _run07Dto10D = new CardList()
+        _run07Dto10D = new Run()
         {
             _card07D,
             _card08D,
@@ -69,7 +62,7 @@ public class DashitaGeneratorTest
             _card10D
         };
 
-        _atamaJacks = new CardList()
+        _atamaJacks = new Atama()
         {
             _cardJaH1,
             _cardJaH2,
@@ -88,7 +81,7 @@ public class DashitaGeneratorTest
         };
 
         Dashita expectedDashita = new Dashita(
-            new List<CardList> { _run02Cto05C, _run07Dto10D },
+            new List<Run> { _run02Cto05C, _run07Dto10D },
             _atamaJacks
         );
 
@@ -97,21 +90,23 @@ public class DashitaGeneratorTest
 
 
         Assert.AreEqual(1, dashitaOptions.Count);
-        Assert.Contains(_run02Cto05C, dashitaOptions[0].Runs);
-        Assert.Contains(_run07Dto10D, dashitaOptions[0].Runs);
-        Assert.AreEqual(_atamaJacks, dashitaOptions[0].Atama);
-        // Assert.AreEqual(expectedDashita, dashitaOptions[0]);
+        Dashita actualDashita = dashitaOptions[0];
+        
+        Assert.Contains(_run02Cto05C, actualDashita.Runs);
+        Assert.Contains(_run07Dto10D, actualDashita.Runs);
+        Assert.AreEqual(_atamaJacks, actualDashita.Atama);
+        Assert.AreEqual(expectedDashita, actualDashita);
+        // Assert.IsTrue(actualDashita.Equals(expectedDashita));
     }
-    
-    
+
 
     [Test]
     [Ignore("")]
     public void DetectsTwoRunsAndAtama()
     {
         Dashita dashita = DashitaGenerator.CheckAndCreateDashita(_player);
-        List<Card> actualRunOne = dashita.RunOne;
-        List<Card> actualRunTwo = dashita.RunTwo;
+        List<Card> actualRunOne = dashita.Runs[0];
+        List<Card> actualRunTwo = dashita.Runs[1];
         List<Card> actualAtama = dashita.Atama;
 
         if (actualRunOne.Contains(_card02C))
@@ -135,24 +130,28 @@ public class DashitaGeneratorTest
         Card card06C = new Card(Rank.Six, Suit.Clubs);
         _player.AddToHand(card06C);
 
-        List<Card> run3Cto6C = new List<Card>()
+        Run run3Cto6C = new Run()
         {
             _card03C, _card04C, _card05C, card06C
         };
 
-        List<Card> run2Cto6C = new List<Card>()
+        Run run2Cto6C = new Run()
         {
             _card02C, _card03C, _card04C, _card05C, card06C
         };
 
         Dashita dashitaWith2Cto5C = new Dashita(
-            _run02Cto05C, _run07Dto10D, _atamaJacks
+            new List<Run>() { _run02Cto05C, _run07Dto10D },
+            _atamaJacks
         );
         Dashita dashitaWith3Cto6C = new Dashita(
-            run3Cto6C, _run07Dto10D, _atamaJacks
+            new List<Run>() { run3Cto6C, _run07Dto10D },
+            _atamaJacks
         );
+
         Dashita dashitaWith2Cto6C = new Dashita(
-            run2Cto6C, _run07Dto10D, _atamaJacks
+            new List<Run>() { run2Cto6C, _run07Dto10D },
+            _atamaJacks
         );
 
         List<Dashita> dashitaOptions = DashitaGenerator.DashitaOptions();

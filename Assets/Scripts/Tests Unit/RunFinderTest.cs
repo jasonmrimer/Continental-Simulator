@@ -147,7 +147,7 @@ public class RunFinderTest
         };
 
 
-        List<CardList> actualRuns = RunFinder.FindPossibleRuns(cards);
+        List<Run> actualRuns = RunFinder.FindPossibleRuns(cards);
 
         Assert.AreEqual(3, actualRuns.Count);
         Assert.Contains(_expectedRun2Cto5C, actualRuns);
@@ -165,7 +165,7 @@ public class RunFinderTest
         };
 
 
-        List<CardList> actualRuns = RunFinder.FindPossibleRuns(cards);
+        List<Run> actualRuns = RunFinder.FindPossibleRuns(cards);
 
         Assert.AreEqual(3, actualRuns.Count);
         Assert.Contains(_expectedRun2Cto5C, actualRuns);
@@ -184,7 +184,7 @@ public class RunFinderTest
         };
 
 
-        List<CardList> actualRuns = RunFinder.FindPossibleRuns(cards);
+        List<Run> actualRuns = RunFinder.FindPossibleRuns(cards);
 
         Assert.AreEqual(4, actualRuns.Count);
         Assert.Contains(_expectedRun2Cto5C, actualRuns);
@@ -204,7 +204,7 @@ public class RunFinderTest
         };
 
 
-        List<CardList> actualRuns = RunFinder.FindPossibleRuns(cards);
+        List<Run> actualRuns = RunFinder.FindPossibleRuns(cards);
 
         Assert.AreEqual(6, actualRuns.Count);
         Assert.Contains(_expectedRun2Cto5C, actualRuns);
@@ -228,7 +228,7 @@ public class RunFinderTest
         };
 
 
-        List<CardList> actualRuns = RunFinder.FindPossibleRuns(cards);
+        List<Run> actualRuns = RunFinder.FindPossibleRuns(cards);
 
         Assert.AreEqual(10, actualRuns.Count);
         Assert.Contains(_expectedRun2Cto5C, actualRuns);
@@ -256,7 +256,7 @@ public class RunFinderTest
         };
 
 
-        List<CardList> actualRuns = RunFinder.FindPossibleRuns(cards);
+        List<Run> actualRuns = RunFinder.FindPossibleRuns(cards);
 
         // Assert.AreEqual(4, actualRuns.Count);
         Assert.Contains(_expectedRunAcCto04C, actualRuns);

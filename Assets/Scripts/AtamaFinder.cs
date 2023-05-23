@@ -3,9 +3,9 @@ using System.Linq;
 
 public class AtamaFinder
 {
-    public static List<CardList> FindAtama(List<Card> cards)
+    public static List<Atama> FindAtama(List<Card> cards)
     {
-        List<CardList> atamaOptions = new();
+        List<Atama> atamaOptions = new();
         Dictionary<Rank, CardList> rankGroups = GroupCardsByRank(cards);
 
         foreach (var rankGroup in rankGroups)
@@ -27,12 +27,12 @@ public class AtamaFinder
     private static void GenerateAtamaCombinations(
         CardList cards,
         CardList currentCombination,
-        List<CardList> combinations
+        List<Atama> combinations
     )
     {
         if (currentCombination.Count >= 3)
         {
-            CardList atamaSortedToPreventDupes = new(currentCombination.OrderBy(card => card.Suit));
+            Atama atamaSortedToPreventDupes = new(currentCombination.OrderBy(card => card.Suit));
             combinations.Add(atamaSortedToPreventDupes);
         }
 

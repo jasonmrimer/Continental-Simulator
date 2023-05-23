@@ -6,7 +6,6 @@ public class RunTest
     private Card _card02C;
     private Card _card03C;
     private Card _card04C;
-
     private Card _card05C;
 
     // private Card _card07D;
@@ -16,9 +15,9 @@ public class RunTest
     // private Card _cardJaH1;
     // private Card _cardJaH2;
     // private Card _cardJaS;
-    // private CardList _run02Cto05C;
-    // private CardList _run07Dto10D;
-    // private CardList _atamaJacks;
+    // private Run _run02Cto05C;
+    // private Run _run07Dto10D;
+    // private Run _atamaJacks;
     //
     [SetUp]
     public void SetUp()
@@ -41,10 +40,10 @@ public class RunTest
     [Test]
     public void EqualsWhenSameObjects()
     {
-        CardList cardList01 = new() { _card02C, _card03C, _card04C, _card05C };
-        CardList cardList02 = new() { _card02C, _card03C, _card04C, _card05C };
+        Run run01 = new() { _card02C, _card03C, _card04C, _card05C };
+        Run run02 = new() { _card02C, _card03C, _card04C, _card05C };
         
-        Assert.AreEqual(cardList01, cardList02);
+        Assert.AreEqual(run01, run02);
     }
 
     [Test]
@@ -55,19 +54,19 @@ public class RunTest
         Card card04Cv2 = new Card(Rank.Four, Suit.Clubs);
         Card card05Cv2 = new Card(Rank.Five, Suit.Clubs);
 
-        CardList cardList01 = new() { _card02C, _card03C, _card04C, _card05C };
-        CardList cardList02 = new() { card02Cv2, card03Cv2, card04Cv2, card05Cv2 };
+        Run run01 = new() { _card02C, _card03C, _card04C, _card05C };
+        Run run02 = new() { card02Cv2, card03Cv2, card04Cv2, card05Cv2 };
 
-        Assert.AreEqual(cardList01, cardList02);
+        Assert.AreEqual(run01, run02);
     }
 
     [Test]
     public void NotEqualWhenDifferentOrder()
     {
-        CardList cardList01 = new() { _card02C, _card03C, _card04C, _card05C };
-        CardList cardList02 = new() { _card03C, _card02C, _card04C, _card05C };
+        Run run01 = new() { _card02C, _card03C, _card04C, _card05C };
+        Run run02 = new() { _card03C, _card02C, _card04C, _card05C };
 
-        Assert.AreNotEqual(cardList01, cardList02);
+        Assert.AreNotEqual(run01, run02);
     }
 
     [Test]
@@ -78,9 +77,9 @@ public class RunTest
         Card card04H = new Card(Rank.Four, Suit.Hearts);
         Card card05H = new Card(Rank.Five, Suit.Hearts);
 
-        CardList cardList01 = new() { _card02C, _card03C, _card04C, _card05C };
-        CardList cardList02 = new() { card02H, card03H, card04H, card05H };
+        Run run01 = new() { _card02C, _card03C, _card04C, _card05C };
+        Run run02 = new() { card02H, card03H, card04H, card05H };
 
-        Assert.AreNotEqual(cardList01, cardList02);
+        Assert.AreNotEqual(run01, run02);
     }
 }

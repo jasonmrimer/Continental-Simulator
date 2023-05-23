@@ -101,7 +101,7 @@ public class AtamaFinderTest
             _card02C, _card02D, _card02H
         };
 
-        List<CardList> atamaFound = AtamaFinder.FindAtama(hand);
+        List<Atama> atamaFound = AtamaFinder.FindAtama(hand);
 
         foreach (List<Card> atama in atamaFound)
         {
@@ -123,13 +123,13 @@ public class AtamaFinderTest
             _card08C, _card08D, _card08H, _card08S
         };
 
-        List<CardList> atamaFound = AtamaFinder.FindAtama(hand);
+        List<Atama> atamaFound = AtamaFinder.FindAtama(hand);
 
         Assert.AreEqual(5, atamaFound.Count);
         AssertFindsAtamasOf8s(atamaFound);
     }
 
-    private void AssertFindsAtamasOf8s(List<CardList> atamaFound)
+    private void AssertFindsAtamasOf8s(List<Atama> atamaFound)
     {
         Assert.Contains(_expectedAtama08s1, atamaFound);
         Assert.Contains(_expectedAtama08s2, atamaFound);
@@ -146,7 +146,7 @@ public class AtamaFinderTest
             _card02C, _card02D, _card02H, _card08C,
         };
 
-        List<CardList> atamaFound = AtamaFinder.FindAtama(hand);
+        List<Atama> atamaFound = AtamaFinder.FindAtama(hand);
 
         Assert.AreEqual(1, atamaFound.Count);
         Assert.Contains(_expectedAtama02s, atamaFound);
@@ -161,7 +161,7 @@ public class AtamaFinderTest
             _card08C, _card08D, _card08H, _card08S,
         };
 
-        List<CardList> atamaFound = AtamaFinder.FindAtama(hand);
+        List<Atama> atamaFound = AtamaFinder.FindAtama(hand);
 
         Assert.AreEqual(6, atamaFound.Count);
         Assert.Contains(_expectedAtama02s, atamaFound);
@@ -176,7 +176,7 @@ public class AtamaFinderTest
             _cardQuC, _cardQuD, _cardQuH1, _cardQuH2,
         };
 
-        List<CardList> atamaFound = AtamaFinder.FindAtama(hand);
+        List<Atama> atamaFound = AtamaFinder.FindAtama(hand);
 
         Assert.AreEqual(5, atamaFound.Count);
         Assert.Contains(_expectedAtamaQus1, atamaFound);
