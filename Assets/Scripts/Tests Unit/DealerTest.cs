@@ -122,6 +122,12 @@ public class DealerTest
             "Did not place new discard on top"
         );
     }
+    
+    [Test]
+    public void ReceivesDashitaFromPlayerAndAddsToPlayZone()
+    {
+        
+    }
 
     private static void AllCardsAndUnique(Player player)
     {
