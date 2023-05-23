@@ -85,7 +85,7 @@ public class GameController
 
     private bool OutOfCards()
     {
-        return Dealer.DeckCardCount() == 0 && Dealer.PileCardCount() == 0;
+        return (Dealer.DeckCardCount()+ Dealer.PileCardCount() == 1);
     }
 
     private bool ShouldContinuePlaying()

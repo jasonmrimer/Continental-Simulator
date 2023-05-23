@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 [TestFixture]
@@ -47,6 +48,20 @@ public class DeckTest
     }
 
     [Test]
+    public void DoesNotDrawCardIfEmpty()
+    {
+        Deck deck = new Deck();
+        for (int i = 0; i < 108; i++)
+        {
+            deck.DrawCard();
+            Console.WriteLine(i);
+        }
+
+        Card drawnCard = deck.DrawCard();
+        Assert.IsNull(drawnCard);
+    }
+
+    [Test]
     public void AddCards()
     {
         Deck deck = new Deck();
@@ -57,7 +72,7 @@ public class DeckTest
             new(Rank.Ace, Suit.Hearts),
             new(Rank.Ace, Suit.Spades),
         });
-        
+
         Assert.AreEqual(112, deck.CardCount());
         Assert.AreEqual(12, deck.Cards.FindAll(card => card.Rank == Rank.Ace).Count);
 

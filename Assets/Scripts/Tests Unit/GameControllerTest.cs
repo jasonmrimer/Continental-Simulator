@@ -11,27 +11,32 @@ public class GameControllerTest
 
         Assert.IsTrue(
             _gameController.IsFinished(),
-            "Should conclude after 1000 turns."
+            "Should conclude after 1000 turns or out of cards."
         );
         
-        if (_gameController.Dealer.PileCardCount() > 1 || _gameController.Dealer.DeckCardCount() > 1)
+        if (AreCardsLeftToDraw())
         {
-            
-            Assert.LessOrEqual(
-                1000,
+            Assert.AreEqual(
                 _gameController.TurnCount(),
-                "Expect an error from depleting the deck or pile."
+                1000,
+                "Expected game to end at 1000 turns."
             ); 
+            
         }
         else
         {
-            Assert.AreEqual(
-                1000,
+            Assert.LessOrEqual(
                 _gameController.TurnCount(),
-                "Expect an error from depleting the deck or pile."
+                1000,
+                "Expected to end after 1000 turns even with cards left to draw."
             ); 
         }
        
+    }
+
+    private bool AreCardsLeftToDraw()
+    {
+        return (_gameController.Dealer.PileCardCount() + _gameController.Dealer.DeckCardCount()) > 1;
     }
 
     private GameController _gameController;

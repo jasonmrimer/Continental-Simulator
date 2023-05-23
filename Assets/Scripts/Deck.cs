@@ -57,6 +57,10 @@ public class Deck
 
     public Card DrawCard()
     {
+        if (CardCount() == 0)
+        {
+            return null;
+        }
         Card drawnCard = _cards.Last();
         _cards.Remove(drawnCard);
         return drawnCard;
