@@ -65,7 +65,6 @@ public class Dealer
         }
 
         _topDiscard = null;
-        
     }
 
     private void AddToPile(Card discard)

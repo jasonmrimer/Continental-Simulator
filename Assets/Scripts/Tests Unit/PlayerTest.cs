@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 [TestFixture]
 public class PlayerTest
@@ -103,6 +102,36 @@ public class PlayerTest
             expectedDashita,
             playedDashita
         );
+
+        Assert.IsEmpty(_player.Hand());
+    }
+
+    [Test]
+    public void PlaysAdditionalCardAfterDashita()
+    {
+        foreach (Card card in TestHelper.HandForDashita2CTo5CAnd7DTo10DAndJacks)
+        {
+            _player.AddToHand(card);
+        }
+
+        int choiceCount = 0;
+        Dashita playedDashita = null;
+        while (playedDashita == null && choiceCount < 100)
+        {
+            playedDashita = _player.PlayDecision();
+            choiceCount++;
+        }
+
+        _player.AddToHand(TestHelper.Card06C);
+
+        Dealer dealer = new Dealer(new Deck(), new List<Player> { _player });
+        dealer.ReceiveDashita(playedDashita);
+
+        Assert.IsTrue(_player.CanPlay(dealer.PlayZone));
+        
+        CardList availablePlays = _player.AvailablePlays(dealer.PlayZone);
+        Assert.AreEqual(1, availablePlays.Count);
+        Assert.Contains(TestHelper.Card06C, availablePlays);
     }
 
     [Test]

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -85,17 +86,59 @@ public class Player
 
     public Dashita PlayDecision()
     {
-        Random random = new Random();
-        double randomValue = random.NextDouble();
+        if (!DecidesToPlayAtRandom()) return null;
 
-        if (randomValue < 0.50)
+        HasPlayedDashita = true;
+        HashSet<Dashita> dashitaOptions = DashitaGenerator.GenerateOptions(Hand());
+        Dashita chosenDashita = new List<Dashita>(dashitaOptions)[0];
+        RemoveDashita(chosenDashita);
+
+        return chosenDashita;
+    }
+
+    private void RemoveDashita(Dashita dashita)
+    {
+        foreach (Run run in dashita.Runs)
         {
-            HasPlayedDashita = true;
-            HashSet<Dashita> dashitaOptions = DashitaGenerator.GenerateOptions(Hand());
-            Dashita chosenDashita = new List<Dashita>(dashitaOptions)[0];
-            return chosenDashita;
+            Hand().RemoveRange(run);
         }
 
-        return null;
+        Hand().RemoveRange(dashita.Atama);
+    }
+
+    private static bool DecidesToPlayAtRandom()
+    {
+        Random random = new Random();
+        double randomValue = random.NextDouble();
+        return randomValue < 0.50;
+    }
+
+    public bool CanPlay(List<CardList> playZone)
+    {
+        return true;
+    }
+
+    public CardList AvailablePlays(List<CardList> playZone)
+    {
+        CardList availablePlays = new();
+
+        foreach (Card card in Hand())
+        {
+            foreach (CardList cardList in playZone)
+            {
+                if (cardList.GetType() == typeof(Run))
+                {
+                    Run appendToEnd = new Run(cardList);
+                    appendToEnd.Add(card);
+                    if (RunFinder.IsRun(appendToEnd))
+                    {
+                        availablePlays.Add(card);
+                    }
+                    
+                }
+            }
+        }
+
+        return availablePlays;
     }
 }

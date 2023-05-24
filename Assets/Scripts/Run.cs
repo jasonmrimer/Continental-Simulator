@@ -11,6 +11,12 @@ public class Run : CardList
     {
     }
 
+    public Run(CardList cardList)
+    {
+        AddRange(cardList);
+    }
+        
+
     public override bool Equals(object obj)
     {
         if (obj is not Run other)
