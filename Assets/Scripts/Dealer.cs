@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,9 +16,11 @@ public class Dealer
         _players = players;
         _discardPile = new List<Card>();
         _topDiscard = null;
+        PlayZone = new List<CardList>();
     }
 
     public Card TopDiscard => _topDiscard;
+    public List<CardList> PlayZone { get; private set; }
 
     public void RecyclePileIntoDeck()
     {
@@ -114,5 +117,15 @@ public class Dealer
         }
 
         return cardToGive;
+    }
+
+    public void ReceiveDashita(Dashita dashita)
+    {
+        foreach (Run run in dashita.Runs)
+        {
+            PlayZone.Add(run);
+        }
+        
+        PlayZone.Add(dashita.Atama);
     }
 }

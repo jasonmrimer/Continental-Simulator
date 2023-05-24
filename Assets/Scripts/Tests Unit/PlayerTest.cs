@@ -76,7 +76,7 @@ public class PlayerTest
     }
 
     [Test]
-    public void PlayerWillDashitaRandomly()
+    public void PlayerWillDashitaRandomlyGivenSingleDashitaHand()
     {
         foreach (Card card in TestHelper.HandForDashita2CTo5CAnd7DTo10DAndJacks)
         {
@@ -103,10 +103,38 @@ public class PlayerTest
             expectedDashita,
             playedDashita
         );
-        /*
-         setup hand with dashita possible
-         run loop until dashita played
-         check that dashita played TRUE
-         */
+    }
+
+    [Test]
+    [Ignore("do the dealer acceptance first")]
+    public void PlayerWillDashitaRandomlyGivenMultiDashitaHand()
+    {
+        CardList hand = new(TestHelper.HandForDashita2CTo5CAnd7DTo10DAndJacks);
+        hand.AddRange(TestHelper.Run08HtoJaH);
+        foreach (Card card in hand)
+        {
+            _player.AddToHand(card);
+        }
+
+        Dashita expectedDashita = new(
+            TestHelper.Run02CTo05C,
+            TestHelper.Run07DTo10D,
+            TestHelper.AtamaJacksHHS
+        );
+
+
+        int choiceCount = 0;
+        Dashita playedDashita = null;
+        while (playedDashita == null && choiceCount < 100)
+        {
+            playedDashita = _player.PlayDecision();
+            choiceCount++;
+        }
+
+        Assert.IsTrue(_player.HasPlayedDashita);
+        Assert.AreEqual(
+            expectedDashita,
+            playedDashita
+        );
     }
 }

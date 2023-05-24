@@ -126,6 +126,10 @@ public class DealerTest
     [Test]
     public void ReceivesDashitaFromPlayerAndAddsToPlayZone()
     {
+        _dealer.ReceiveDashita(TestHelper.Dashita02CTo05CAnd07DTo10DAndJacks);
         
+        Assert.Contains(TestHelper.Run02CTo05C, _dealer.PlayZone);
+        Assert.Contains(TestHelper.Run07DTo10D, _dealer.PlayZone);
+        Assert.Contains(TestHelper.AtamaJacksHHS, _dealer.PlayZone);
     }
 }
