@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 public class GameControllerTest
@@ -6,7 +7,15 @@ public class GameControllerTest
     [Test]
     public void Play1000TurnsOrUntilDiscardPileEmpty()
     {
-        _gameController = new GameController(turnLimit: 1000);
+        List<Player> players = PlayerStub.CreatePlayers();
+        Dealer dealer = new(new Deck(), players);
+        
+        _gameController = new GameController(
+            dealer,
+            players,
+            turnLimit: 1000
+            );
+        _gameController.Deal();
         _gameController.Play();
 
         Assert.IsTrue(

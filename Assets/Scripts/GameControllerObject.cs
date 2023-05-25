@@ -14,6 +14,7 @@ public class GameControllerObject : MonoBehaviour
     public GameObject P2_Hand;
     public GameObject P3_Hand;
     public GameObject P4_Hand;
+    public GameObject Discard_Object;
     private List<GameObject> _playerObjects;
     private List<Player> _players;
     private Dealer _dealer;
@@ -31,7 +32,8 @@ public class GameControllerObject : MonoBehaviour
 
         _gameController = new GameController(
             _dealer,
-            _players
+            _players,
+            1000
         );
 
         _playerToObjectDict = new Dictionary<Player, GameObject>

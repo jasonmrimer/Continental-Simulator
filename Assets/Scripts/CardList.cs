@@ -36,6 +36,18 @@ public class CardList: List<Card>
             }
         }
     }
+    
+    private void RemoveLastMatch(Card card)
+    {
+        for (int i = this.Count - 1; i > -1 ; i--)
+        {
+            if (this[i].Suit == card.Suit && this[i].Rank == card.Rank)
+            {
+                this.RemoveAt(i);
+                break;
+            }
+        }
+    }
 
     public override string ToString()
     {

@@ -62,7 +62,7 @@ public class Deck
             return null;
         }
         Card drawnCard = _cards.Last();
-        _cards.Remove(drawnCard);
+        _cards.RemoveAt(_cards.Count - 1);
         return drawnCard;
     }
 

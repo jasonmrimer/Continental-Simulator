@@ -11,52 +11,45 @@ public class GameController
     private int _currentPlayerIndex;
     private readonly int _turnLimit;
     private MessageProducer _messageProducer;
-    private Dealer _dealer;
+    private readonly Dealer _dealer;
+
+    public Dealer Dealer => _dealer;
 
     public GameController(
         Dealer dealer,
         List<Player> players,
-        int turnLimit = 100
-    ) : base()
+        int turnLimit
+    ) : this()
     {
         _dealer = dealer;
         _players = players;
-        DefaultSetup();
+        _turnLimit = turnLimit;
     }
 
-    public GameController()
+    public GameController(int turnLimit = 1000)
     {
+        _players = PlayerStub.CreatePlayers();
+        _dealer = new(new Deck(), _players);
         _turnCount = 1;
         _currentPlayerIndex = 0;
         _gameIsOver = false;
+        _turnLimit = turnLimit;
         _messageProducer = new MessageProducer(
             bootstrapServers: "localhost:9092",
             topic: "GameAndPlayerStateBeforeAction"
         );
     }
 
-    public GameController(int turnLimit = 100)
-    {
-        _turnLimit = turnLimit;
-
-        // Setup
-        _players = PlayerStub.CreatePlayers();
-        _dealer = new Dealer(new Deck(), _players);
-
-
-        DefaultSetup();
-    }
-
     public void Deal()
     {
-        _dealer.Deal();
+        Dealer.Deal();
     }
 
-    public async Task Play()
+    public void Play()
     {
         while (ShouldContinuePlaying())
         {
-            await _messageProducer.ProduceMessageAsync($"{_turnCount}");
+            _messageProducer.ProduceMessageAsync($"{_turnCount}");
 
             Player currentPlayer = _players[_currentPlayerIndex];
 
@@ -162,11 +155,6 @@ public class GameController
         Dealer.ReceiveDiscardFromPlayer(discard);
     }
 
-    private void DefaultSetup()
-    {
-        // Deal
-    }
-
     public bool IsFinished()
     {
         return _gameIsOver;
@@ -177,5 +165,4 @@ public class GameController
         return _turnCount;
     }
 
-    public Dealer Dealer { get; private set; }
 }
