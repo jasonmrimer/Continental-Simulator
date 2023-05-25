@@ -10,7 +10,9 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "nunit.framework.dll"
+        "nunit.framework.dll",
+        "Confluent.Kafka.dll",
+        ""
     ],
     "autoReferenced": false,
     "defineConstraints": [

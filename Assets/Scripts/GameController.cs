@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Game;
 
 public class GameController
 {
@@ -8,18 +10,54 @@ public class GameController
     private int _turnCount;
     private int _currentPlayerIndex;
     private readonly int _turnLimit;
+    private MessageProducer _messageProducer;
+    private Dealer _dealer;
+
+    public GameController(
+        Dealer dealer,
+        List<Player> players,
+        int turnLimit = 100
+    ) : base()
+    {
+        _dealer = dealer;
+        _players = players;
+        DefaultSetup();
+    }
+
+    public GameController()
+    {
+        _turnCount = 1;
+        _currentPlayerIndex = 0;
+        _gameIsOver = false;
+        _messageProducer = new MessageProducer(
+            bootstrapServers: "localhost:9092",
+            topic: "GameAndPlayerStateBeforeAction"
+        );
+    }
 
     public GameController(int turnLimit = 100)
     {
         _turnLimit = turnLimit;
 
-        SetupAndDeal();
+        // Setup
+        _players = PlayerStub.CreatePlayers();
+        _dealer = new Dealer(new Deck(), _players);
+
+
+        DefaultSetup();
     }
 
-    public void Play()
+    public void Deal()
+    {
+        _dealer.Deal();
+    }
+
+    public async Task Play()
     {
         while (ShouldContinuePlaying())
         {
+            await _messageProducer.ProduceMessageAsync($"{_turnCount}");
+
             Player currentPlayer = _players[_currentPlayerIndex];
 
             GameWriter.PrintDeckAndPileStatus(Dealer, _turnCount, _players);
@@ -85,7 +123,7 @@ public class GameController
 
     private bool OutOfCards()
     {
-        return (Dealer.DeckCardCount()+ Dealer.PileCardCount() == 1);
+        return (Dealer.DeckCardCount() + Dealer.PileCardCount() == 1);
     }
 
     private bool ShouldContinuePlaying()
@@ -124,18 +162,9 @@ public class GameController
         Dealer.ReceiveDiscardFromPlayer(discard);
     }
 
-    private void SetupAndDeal()
+    private void DefaultSetup()
     {
-        // Setup
-        _players = PlayerStub.CreatePlayers();
-        Dealer = new Dealer(new Deck(), _players);
-
-        _turnCount = 1;
-        _currentPlayerIndex = 0;
-        _gameIsOver = false;
-
         // Deal
-        Dealer.Deal();
     }
 
     public bool IsFinished()
